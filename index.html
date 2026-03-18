@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="pt-BR" className="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Algodão Doce - Especial Páscoa 2026</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- React & ReactDOM -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <!-- Babel -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'choc-dark': '#4A3525',
+                        'choc-light': '#8C6239',
+                        'gold-soft': '#BFA15F',
+                        'blue-soft': '#9ECAE1',
+                        'beige-bg': '#F5F2EB',
+                        'beige-card': '#FEFCFA',
+                        'pink-pastel': '#FDE8E9'
+                    },
+                    fontFamily: {
+                        'serif': ['"Playfair Display"', 'serif'],
+                        'sans': ['"Lato"', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'elegant': '0 10px 40px -10px rgba(74, 53, 37, 0.08)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Lato', sans-serif; background-color: #FAF8F5; color: #4A3525; -webkit-tap-highlight-color: transparent; }
+        .font-serif { font-family: 'Playfair Display', serif; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #FAF8F5; }
+        ::-webkit-scrollbar-thumb { background: #D4AF37; border-radius: 4px; }
+        
+        .hero-pattern {
+            background-color: #F5F2EB;
+            background-image: radial-gradient(#BFA15F 0.5px, transparent 0.5px), radial-gradient(#BFA15F 0.5px, #F5F2EB 0.5px);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+        }
+
+        .cart-enter { animation: slideIn 0.3s ease-out forwards; }
+        @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useMemo, useRef } = React;
+
+        // --- DADOS DOS PRODUTOS ---
+        const products = [
+            {
+                category: "Para comer de colher",
+                items: [
+                    { id: 'c1', name: "Dark & Rock's", desc: "Casca de chocolate meio amargo com recheio de brigadeiro cremoso de chocolate meio amargo e crocante de Ovomaltine", image: "assets/ovo-dourado.jpg", options: [{ weight: "150g", price: 45 }, { weight: "300g", price: 85 }] },
+                    { id: 'c2', name: "Pistache", desc: "Casca de chocolate ao leite e chocolate branco saborizado de pistache com recheio de brigadeiro de pistache", image: "https://images.unsplash.com/photo-1514845565127-ec111f008815?q=80&w=400&auto=format&fit=crop", options: [{ weight: "150g", price: 49 }, { weight: "300g", price: 95 }] },
+                    { id: 'c3', name: "Rafaello", desc: "Casca de chocolate branco com recheio de brigadeiro cremoso de coco, amêndoas e creme tipo Rafaello", image: "assets/ovo-branco.jpg", options: [{ weight: "150g", price: 38 }, { weight: "300g", price: 79 }] },
+                    { id: 'c4', name: "Meio a Meio", desc: "Casca de chocolate ao leite e chocolate branco, com recheio de brigadeiro ao leite e brigadeiro branco", image: "assets/ovo-azul.jpg", options: [{ weight: "150g", price: 37 }, { weight: "300g", price: 77 }] },
+                ]
+            },
+            {
+                category: "Ovos de Casca Recheada",
+                items: [
+                    { id: 'o1', name: "Caramelo Crocante", desc: "Casca de chocolate blend com recheio de caramelo salgado coberto com crocante de chocolate branco e sucrilhos", image: "https://images.unsplash.com/photo-1604085429184-babb7881b5fb?q=80&w=400&auto=format&fit=crop", options: [{ weight: "330g", price: 92 }] },
+                    { id: 'o2', name: "Torta de Limão", desc: "Casca de chocolate branco com wafer e recheio de brigadeiro cremoso de limão siciliano", image: "assets/ovo-branco.jpg", options: [{ weight: "330g", price: 92 }] },
+                    { id: 'o3', name: "Chocotrio", desc: "Casca de chocolate blend com recheio de brigadeiro branco com pedaços de biscoito", image: "https://images.unsplash.com/photo-1520625340-9a3dc68bdfa3?q=80&w=400&auto=format&fit=crop", options: [{ weight: "330g", price: 86 }] },
+                    { id: 'o4', name: "Prestígio", desc: "Casca de chocolate ao leite com recheio de brigadeiro cremoso de coco", image: "https://images.unsplash.com/photo-1598509838043-4aebde5530bb?q=80&w=400&auto=format&fit=crop", options: [{ weight: "330g", price: 86 }] },
+                ]
+            },
+            {
+                category: "Mimos & Presenteáveis",
+                items: [
+                    { id: 'm1', name: "Ovos de Ouro", desc: "Mini ovos de chocolate blend com recheios variados: 2 pistache, 2 chocolate com rocks, 2 coco", image: "https://images.unsplash.com/photo-1554904269-ad804b4c718c?q=80&w=400&auto=format&fit=crop", options: [{ weight: "400g", price: 84 }] },
+                    { id: 'm2', name: "Ovinhos de Chocolate", desc: "Sabores: meio amargo c/ ovomaltine, ao leite c/ flocos ou branco c/ sucrilhos", image: "https://images.unsplash.com/photo-1590841609989-122e260fb160?q=80&w=400&auto=format&fit=crop", options: [{ weight: "120g", price: 38 }] },
+                    { id: 'm3', name: "Coelho Encantado (Kit)", desc: "1 ovo casca recheada, 1 pote brigadeiro (ao leite+pistache), 3 mini ovos sortidos, coelhinho enfeite.", image: "assets/kit-coelho.jpg", options: [{ weight: "Kit", price: 167 }] },
+                    { id: 'm4', name: "Coelhinho de Páscoa (Infantil)", desc: "Bolsinha de orelhinhas, ovo ao leite c/ brigadeiro, balas Fini 15g, adesivos de patinhas.", image: "https://images.unsplash.com/photo-1555239967-ac946e3d23eb?q=80&w=400&auto=format&fit=crop", options: [{ weight: "Kit", price: 55 }] },
+                ]
+            }
+        ];
+
+        // --- ICONES SVG (LUCIDE LITE) ---
+        const Icons = {
+            Cart: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>,
+            WhatsApp: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>,
+            Instagram: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>,
+            Check: () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>,
+            X: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>,
+            Heart: () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>,
+        };
+
+        // --- FORMATADOR ---
+        const formatBRL = (val) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val);
+
+        // --- COMPONENTES ---
+        const ProductCard = ({ product, categoryName, onAdd }) => {
+            const [selectedOptIndex, setSelectedOptIndex] = useState(0);
+            
+            const handleAdd = () => {
+                const option = product.options[selectedOptIndex];
+                onAdd({
+                    id: `${product.id}-${selectedOptIndex}`,
+                    name: product.name,
+                    weight: option.weight,
+                    price: option.price,
+                    category: categoryName,
+                    image: product.image
+                });
+            };
+
+            return (
+                <div className="bg-beige-card rounded-2xl overflow-hidden shadow-elegant transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl border border-[#F0EBE1] flex flex-col h-full">
+                    <div className="relative h-48 sm:h-64 overflow-hidden group">
+                        <img src={product.image} alt={product.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-60"></div>
+                        <h3 className="absolute bottom-4 left-4 font-serif text-2xl text-white font-semibold drop-shadow-md">{product.name}</h3>
+                    </div>
+                    <div className="p-5 flex flex-col flex-grow">
+                        <p className="text-sm text-choc-light mb-4 line-clamp-3 leading-relaxed flex-grow">{product.desc}</p>
+                        
+                        {product.options.length > 1 && (
+                            <div className="flex space-x-2 mb-4">
+                                {product.options.map((opt, idx) => (
+                                    <button 
+                                        key={idx}
+                                        onClick={() => setSelectedOptIndex(idx)}
+                                        className={`flex-1 py-1.5 px-2 text-xs font-bold rounded-lg transition-colors border ${selectedOptIndex === idx ? 'bg-choc-dark text-white border-choc-dark shadow-sm' : 'bg-transparent text-choc-dark border-choc-light/40 hover:bg-[#F0EBE1]'}`}
+                                    >
+                                        {opt.weight} - {formatBRL(opt.price)}
+                                    </button>
+                                ))}
+                            </div>
+                        )}
+                        {product.options.length === 1 && (
+                            <div className="mb-4">
+                                <span className="inline-block bg-[#F0EBE1] text-choc-dark text-xs font-bold px-3 py-1 rounded-full">{product.options[0].weight}</span>
+                            </div>
+                        )}
+
+                        <div className="flex justify-between items-center mt-auto pt-4 border-t border-[#F0EBE1]">
+                            <span className="font-serif text-xl font-bold text-choc-dark">
+                                {formatBRL(product.options[selectedOptIndex].price)}
+                            </span>
+                            <button 
+                                onClick={handleAdd}
+                                className="bg-gold-soft hover:bg-[#C59B2E] text-white px-5 py-2.5 rounded-full font-bold text-sm shadow-md transition-all active:scale-95 flex items-center"
+                            >
+                                Adicionar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const App = () => {
+            const [cart, setCart] = useState([]);
+            const [isCartOpen, setIsCartOpen] = useState(false);
+
+            // Form States
+            const [formData, setFormData] = useState({
+                name: '', phone: '', email: '', instagram: '',
+                method: 'Retirar no Local', period: 'Tarde', date: '',
+                cep: '', bairro: '', address: '', reference: '',
+                payment: 'Pix',
+                obs: ''
+            });
+
+            // Resumo do pedido
+            const cartTotal = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+            const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
+
+            const addToCart = (productInfo) => {
+                setCart(prev => {
+                    const existing = prev.find(i => i.id === productInfo.id);
+                    if (existing) {
+                        return prev.map(i => i.id === productInfo.id ? { ...i, quantity: i.quantity + 1 } : i);
+                    }
+                    return [...prev, { ...productInfo, quantity: 1 }];
+                });
+                setIsCartOpen(true); // Abre o carrinho automaticamente
+            };
+
+            const updateQuantity = (id, delta) => {
+                setCart(prev => prev.map(i => {
+                    if (i.id === id) {
+                        const newQ = i.quantity + delta;
+                        return newQ > 0 ? { ...i, quantity: newQ } : i;
+                    }
+                    return i;
+                }).filter(i => i.quantity > 0)); // Remove se bater 0 na UI atual mas aqui trataremos só de diminuir
+            };
+
+            const removeFromCart = (id) => {
+                setCart(prev => prev.filter(i => i.id !== id));
+            };
+
+            const handleCheckout = () => {
+                if(cart.length === 0) return alert("Seu pedido está vazio!");
+                if(!formData.name || !formData.phone) return alert("Por favor, preencha pelo menos Nome e Celular para contato.");
+
+                // Gera a string do WhatsApp com formatação elegante e sem emojis para evitar quebra de codificação local
+                let msg = `*NOVO PEDIDO DE PÁSCOA 2026* | Algodão Doce\n`;
+                msg += `--------------------------------------\n\n`;
+                
+                msg += `*DADOS DO CLIENTE*\n`;
+                msg += `Nome: ${formData.name}\n`;
+                msg += `Telefone: ${formData.phone}\n`;
+                if(formData.instagram) msg += `Instagram: ${formData.instagram}\n`;
+                
+                msg += `\n*RESUMO DO PEDIDO*\n`;
+                cart.forEach(item => {
+                    msg += `• ${item.quantity}x ${item.name} (${item.weight}) - ${formatBRL(item.price * item.quantity)}\n`;
+                });
+                msg += `\nSubtotal: *${formatBRL(cartTotal)}*\n`;
+                
+                msg += `\n*PAGAMENTO & ENTREGA*\n`;
+                msg += `Forma de Pagamento: ${formData.payment}\n`;
+                msg += `Modalidade: ${formData.method}\n`;
+                msg += `Data Desejada: ${formData.date ? formData.date.split('-').reverse().join('/') : 'A combinar'} - ${formData.period}\n`;
+                
+                if(formData.method === 'Entrega em Domicílio') {
+                    msg += `\n*ENDEREÇO DE ENTREGA*\n`;
+                    msg += `${formData.address}, ${formData.bairro} - CEP: ${formData.cep}\n`;
+                    if(formData.reference) msg += `Referência: ${formData.reference}\n`;
+                    msg += `_(O frete será calculado pelo nosso atendimento)_\n`;
+                }
+
+                if(formData.obs) {
+                    msg += `\n*OBSERVAÇÕES DO CLIENTE*\n`;
+                    msg += `"${formData.obs}"\n`;
+                }
+
+                msg += `\n--------------------------------------\n`;
+                msg += `_Pedido gerado pelo nosso site._\n`;
+                msg += `Aguardo seu retorno para confirmar a disponibilidade e o sinal de 50%!`;
+
+                const phone = "5531984553573";
+                // codificando corretamente para o zap
+                const encodedMsg = encodeURIComponent(msg);
+                const url = `https://api.whatsapp.com/send?phone=${phone}&text=${encodedMsg}`;
+                window.open(url, '_blank');
+            };
+
+            // Efeito para fechar drawer no Esc
+            useEffect(() => {
+                const handleEsc = (e) => { if (e.key === 'Escape') setIsCartOpen(false); }
+                window.addEventListener('keydown', handleEsc);
+                return () => window.removeEventListener('keydown', handleEsc);
+            }, []);
+
+            return (
+                <div className="relative overflow-x-hidden min-h-screen">
+                    {/* --- NAVBAR --- */}
+                    <nav className="fixed top-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-md border-b border-[#F0EBE1] transition-all py-3 px-4 sm:px-8 flex justify-between items-center shadow-sm">
+                        <div className="font-serif text-2xl font-bold text-choc-dark flex items-center">
+                            <span className="text-gold-soft mr-2">❦</span> Algodão Doce
+                        </div>
+                        <button onClick={() => setIsCartOpen(true)} className="relative p-2 text-choc-dark hover:text-gold-soft transition">
+                            <Icons.Cart />
+                            {totalItems > 0 && (
+                                <span className="absolute top-0 right-0 bg-gold-soft text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full border-2 border-white">
+                                    {totalItems}
+                                </span>
+                            )}
+                        </button>
+                    </nav>
+
+                    {/* --- HERO --- */}
+                    <header className="pt-24 pb-16 px-4 hero-pattern relative overflow-hidden flex flex-col items-center justify-center min-h-[70vh] text-center border-b border-[#E0D5C1]/30">
+                        {/* Decorative circle */}
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white rounded-full blur-[100px] opacity-60 pointer-events-none"></div>
+                        
+                        <div className="relative z-10 max-w-3xl mx-auto">
+                            <p className="text-gold-soft uppercase tracking-[0.2em] font-bold text-xs sm:text-sm mb-4">Coleção Exclusiva</p>
+                            <h1 className="font-serif text-5xl sm:text-7xl font-bold text-choc-dark mb-6 leading-tight">
+                                Páscoa <span className="italic text-gold-soft">2026</span>
+                            </h1>
+                            <p className="text-lg sm:text-2xl text-choc-light mb-10 font-light max-w-2xl mx-auto">
+                                Encomende doces artesanais premium para presentear quem você ama e celebrar com afeto e sofisticação.
+                            </p>
+                            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                                <a href="#cardapio" className="bg-choc-dark text-white px-8 py-4 rounded-full font-bold shadow-lg hover:shadow-xl hover:bg-[#38271B] hover:-translate-y-1 transition-all duration-300 w-full sm:w-auto text-center border border-transparent">
+                                    Escolher Meus Doces
+                                </a>
+                                <a href="https://wa.me/5531984553573" target="_blank" className="bg-white text-choc-dark px-8 py-4 rounded-full font-bold shadow-md border border-[#F0EBE1] hover:bg-beige-bg transition-all duration-300 w-full sm:w-auto text-center flex justify-center items-center">
+                                    <span className="mr-2 text-green-500"><Icons.WhatsApp /></span> Falar no WhatsApp
+                                </a>
+                            </div>
+                        </div>
+                    </header>
+
+                    {/* --- COMO FUNCIONA --- */}
+                    <section className="py-20 px-4 bg-white">
+                        <div className="max-w-6xl mx-auto">
+                            <div className="text-center mb-16">
+                                <h2 className="font-serif text-3xl sm:text-4xl font-bold text-choc-dark mb-3">Como realizar sua encomenda</h2>
+                                <p className="text-choc-light">Preparamos um processo prático para adoçar sua vida</p>
+                            </div>
+                            
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                                <div className="p-8 bg-beige-bg rounded-3xl text-center border border-[#F0EBE1]">
+                                    <div className="w-16 h-16 bg-blue-soft rounded-full flex items-center justify-center text-2xl font-serif font-bold text-choc-dark mx-auto mb-6">1</div>
+                                    <h3 className="font-bold text-lg text-choc-dark mb-2">Escolha do Cardápio</h3>
+                                    <p className="text-choc-light text-sm">Selecione seus doces artesanais favoritos e os tamanhos ideais e adicione ao pedido.</p>
+                                </div>
+                                <div className="p-8 bg-beige-bg rounded-3xl text-center border border-[#F0EBE1]">
+                                    <div className="w-16 h-16 bg-pink-pastel rounded-full flex items-center justify-center text-2xl font-serif font-bold text-choc-dark mx-auto mb-6">2</div>
+                                    <h3 className="font-bold text-lg text-choc-dark mb-2">Detalhes e Entrega</h3>
+                                    <p className="text-choc-light text-sm">Preencha seus dados de contato e indique se prefere retirar ou receber as doçuras em casa.</p>
+                                </div>
+                                <div className="p-8 bg-beige-bg rounded-3xl text-center border border-[#F0EBE1]">
+                                    <div className="w-16 h-16 bg-[#FFF2CC] rounded-full flex items-center justify-center text-2xl font-serif font-bold text-choc-dark mx-auto mb-6">3</div>
+                                    <h3 className="font-bold text-lg text-choc-dark mb-2">Confirmação via WhatsApp</h3>
+                                    <p className="text-choc-light text-sm">Envie a solicitação. Entraremos em contato para confirmar o pagamento (50% de sinal) e validar a reserva!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* --- CARDÁPIO --- */}
+                    <section id="cardapio" className="py-20 px-4 bg-beige-bg">
+                        <div className="max-w-6xl mx-auto">
+                            <div className="text-center mb-16">
+                                <span className="text-gold-soft text-2xl">❦</span>
+                                <h2 className="font-serif text-4xl sm:text-5xl font-bold text-choc-dark mt-4 mb-4">Nosso Cardápio</h2>
+                                <p className="text-choc-light max-w-2xl mx-auto">Sabores inesquecíveis, produzidos com o mais puro chocolate e muito amor em cada detalhe.</p>
+                            </div>
+
+                            {products.map((cat, idx) => (
+                                <div key={idx} className="mb-20">
+                                    <h3 className="font-serif text-3xl font-italic text-choc-dark mb-8 border-b border-[#E0D5C1] pb-2 flex items-center">
+                                        <span className="w-2 h-2 rounded-full bg-gold-soft mr-3"></span>
+                                        {cat.category}
+                                    </h3>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                                        {cat.items.map(product => (
+                                            <ProductCard key={product.id} product={product} categoryName={cat.category} onAdd={addToCart} />
+                                        ))}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+
+                    {/* --- REGRAS --- */}
+                    <section className="py-16 px-4 bg-choc-dark text-white text-center border-t-8 border-gold-soft">
+                        <div className="max-w-4xl mx-auto">
+                            <h2 className="font-serif text-3xl font-bold mb-8 italic">Importante Saber</h2>
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-sm text-[#DFD0C3]">
+                                <div className="p-4 border border-[#644B36] rounded-xl">
+                                    <p className="font-bold text-white text-lg mb-2">3 Dias</p>
+                                    <p>Os pedidos ou alterações devem ser feitos com no mínimo 3 dias úteis de antecedência.</p>
+                                </div>
+                                <div className="p-4 border border-[#644B36] rounded-xl">
+                                    <p className="font-bold text-white text-lg mb-2">50% Sinal</p>
+                                    <p>A reserva só é confirmada mediante o pagamento de 50% de entrada (Pix ou Cartão). O restante é pago 1 dia antes.</p>
+                                </div>
+                                <div className="p-4 border border-[#644B36] rounded-xl">
+                                    <p className="font-bold text-white text-lg mb-2">Entregas</p>
+                                    <p>O frete é calculado pelo endereço. As entregas seguem rota do dia, sem horário rigoroso agendado.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* --- FOOTER --- */}
+                    <footer className="bg-white py-12 px-4 border-t border-[#F0EBE1]">
+                        <div className="max-w-6xl mx-auto flex flex-col items-center justify-center text-center">
+                            <h2 className="font-serif text-3xl font-bold text-choc-dark mb-4">Algodão Doce</h2>
+                            <p className="text-choc-light mb-6 max-w-md">Doces artesanais feitos com carinho para tornar sua Páscoa ainda mais especial.</p>
+                            <div className="flex space-x-6 text-choc-dark">
+                                <a href="https://wa.me/5531984553573" className="hover:text-gold-soft transition flex items-center">
+                                    <Icons.WhatsApp /><span className="ml-2 font-bold">(31) 98455-3573</span>
+                                </a>
+                                <a href="#" className="hover:text-gold-soft transition flex items-center">
+                                    <Icons.Instagram /><span className="ml-2 font-bold">@algodao.docebh</span>
+                                </a>
+                            </div>
+                            <p className="text-xs text-choc-light/60 mt-10">© 2026 Algodão Doce. Todos os direitos reservados.</p>
+                        </div>
+                    </footer>
+
+                    {/* --- CART DRAWER OVERLAY --- */}
+                    {isCartOpen && (
+                        <div className="fixed inset-0 z-50 flex justify-end">
+                            <div className="absolute inset-0 bg-choc-dark/40 backdrop-blur-sm transition-opacity" onClick={() => setIsCartOpen(false)}></div>
+                            
+                            <div className="relative w-full max-w-md bg-beige-card h-full shadow-2xl flex flex-col cart-enter overflow-y-auto">
+                                <div className="p-5 border-b border-[#F0EBE1] flex justify-between items-center bg-white sticky top-0 z-10">
+                                    <h2 className="font-serif text-2xl font-bold text-choc-dark">Seu Pedido</h2>
+                                    <button onClick={() => setIsCartOpen(false)} className="text-choc-light hover:text-red-500 bg-beige-bg p-2 rounded-full"><Icons.X /></button>
+                                </div>
+
+                                <div className="p-5 flex-grow">
+                                    {cart.length === 0 ? (
+                                        <div className="text-center text-choc-light py-20">
+                                            <div className="text-5xl mb-4 opacity-50">🍫</div>
+                                            <p className="font-medium text-lg">Seu pedido está vazio.</p>
+                                            <p className="text-sm mt-2">Navegue pelas doçuras e escolha seus favoritos.</p>
+                                            <button onClick={() => setIsCartOpen(false)} className="mt-6 font-bold text-gold-soft underline">Voltar ao cardápio</button>
+                                        </div>
+                                    ) : (
+                                        <div className="space-y-4 mb-8">
+                                            {cart.map((item) => (
+                                                <div key={item.id} className="flex pt-4 pb-4 border-b border-[#F0EBE1] bg-white p-3 rounded-xl shadow-sm">
+                                                    <img src={item.image} alt={item.name} className="w-16 h-16 object-cover rounded-lg border border-[#F0EBE1]" />
+                                                    <div className="ml-3 flex-grow">
+                                                        <h4 className="font-bold text-choc-dark text-sm">{item.name}</h4>
+                                                        <p className="text-xs text-choc-light">{item.weight}</p>
+                                                        <div className="flex justify-between items-center mt-2">
+                                                            <div className="flex items-center space-x-2 bg-beige-bg rounded-full border border-[#F0EBE1] px-1">
+                                                                <button onClick={() => updateQuantity(item.id, -1)} className="w-6 h-6 flex items-center justify-center text-choc-dark font-bold hover:text-red-500">-</button>
+                                                                <span className="text-xs font-bold text-choc-dark w-4 text-center">{item.quantity}</span>
+                                                                <button onClick={() => updateQuantity(item.id, 1)} className="w-6 h-6 flex items-center justify-center text-choc-dark font-bold hover:text-green-500">+</button>
+                                                            </div>
+                                                            <span className="font-bold text-choc-dark text-sm">{formatBRL(item.price * item.quantity)}</span>
+                                                            <button onClick={() => removeFromCart(item.id)} className="text-red-400 text-xs ml-2 hover:underline">remover</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                            <div className="pt-4 border-t-2 border-dashed border-[#E0D5C1] flex justify-between items-center bg-white p-4 rounded-xl">
+                                                <span className="text-choc-light font-medium uppercase tracking-wider text-xs">Subtotal (Sem Frete)</span>
+                                                <span className="font-serif font-bold text-2xl text-choc-dark">{formatBRL(cartTotal)}</span>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* FORMULÁRIO DE CHECKOUT */}
+                                    {cart.length > 0 && (
+                                        <div className="bg-white p-5 rounded-2xl border border-[#F0EBE1] shadow-sm mb-10">
+                                            <h3 className="font-serif text-xl font-bold text-choc-dark mb-4 border-b border-[#F0EBE1] pb-2">Detalhes da Encomenda</h3>
+                                            <div className="space-y-4">
+                                                <div><label className="text-xs font-bold text-choc-dark block mb-1">Nome Completo *</label><input type="text" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} className="w-full border border-[#F0EBE1] rounded-lg p-3 text-sm bg-beige-bg focus:ring-1 focus:ring-gold-soft outline-none" placeholder="Ex: Maria Fernanda" /></div>
+                                                <div className="flex space-x-3">
+                                                    <div className="flex-1"><label className="text-xs font-bold text-choc-dark block mb-1">Celular (WhatsApp) *</label><input type="tel" value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} className="w-full border border-[#F0EBE1] rounded-lg p-3 text-sm bg-beige-bg focus:ring-1 focus:ring-gold-soft outline-none" placeholder="(00) 00000-0000" /></div>
+                                                    <div className="flex-1"><label className="text-xs font-bold text-choc-dark block mb-1">Instagram</label><input type="text" value={formData.instagram} onChange={e => setFormData({...formData, instagram: e.target.value})} className="w-full border border-[#F0EBE1] rounded-lg p-3 text-sm bg-beige-bg focus:ring-1 focus:ring-gold-soft outline-none" placeholder="@seu.perfil" /></div>
+                                                </div>
+                                                
+                                                <div className="pt-4">
+                                                    <label className="text-xs font-bold text-choc-dark block mb-2">Modalidade *</label>
+                                                    <div className="flex space-x-2">
+                                                        <button onClick={() => setFormData({...formData, method: 'Retirar no Local'})} className={`flex-1 py-2 text-sm font-bold rounded-lg border ${formData.method === 'Retirar no Local' ? 'bg-choc-dark text-white border-choc-dark' : 'bg-transparent text-choc-light border-[#F0EBE1]'}`}>Retirar no Local</button>
+                                                        <button onClick={() => setFormData({...formData, method: 'Entrega em Domicílio'})} className={`flex-1 py-2 text-sm font-bold rounded-lg border ${formData.method === 'Entrega em Domicílio' ? 'bg-choc-dark text-white border-choc-dark' : 'bg-transparent text-choc-light border-[#F0EBE1]'}`}>Entrega em Domicílio</button>
+                                                    </div>
+                                                </div>
+
+                                                {formData.method === 'Entrega em Domicílio' && (
+                                                    <div className="p-3 bg-blue-soft/30 rounded-lg space-y-3 mt-2 border border-blue-100">
+                                                        <div className="flex space-x-2">
+                                                            <div className="w-1/3"><input type="text" value={formData.cep} onChange={e => setFormData({...formData, cep: e.target.value})} placeholder="CEP" className="w-full border border-[#F0EBE1] rounded-lg p-2 text-sm bg-white" /></div>
+                                                            <div className="w-2/3"><input type="text" value={formData.bairro} onChange={e => setFormData({...formData, bairro: e.target.value})} placeholder="Bairro" className="w-full border border-[#F0EBE1] rounded-lg p-2 text-sm bg-white" /></div>
+                                                        </div>
+                                                        <div><input type="text" value={formData.address} onChange={e => setFormData({...formData, address: e.target.value})} placeholder="Rua, Número, Complemento" className="w-full border border-[#F0EBE1] rounded-lg p-2 text-sm bg-white" /></div>
+                                                        <div><input type="text" value={formData.reference} onChange={e => setFormData({...formData, reference: e.target.value})} placeholder="Ponto de Referência" className="w-full border border-[#F0EBE1] rounded-lg p-2 text-sm bg-white" /></div>
+                                                        <p className="text-[10px] text-blue-800 text-center font-bold">Frete será calculado pelo atendimento no WhatsApp.</p>
+                                                    </div>
+                                                )}
+
+                                                <div className="flex space-x-3 pt-2">
+                                                    <div className="flex-1">
+                                                        <label className="text-xs font-bold text-choc-dark block mb-1">Data</label>
+                                                        <input type="date" value={formData.date} onChange={e => setFormData({...formData, date: e.target.value})} className="w-full border border-[#F0EBE1] rounded-lg p-3 text-sm bg-beige-bg text-choc-light" />
+                                                    </div>
+                                                    <div className="flex-1">
+                                                        <label className="text-xs font-bold text-choc-dark block mb-1">Período</label>
+                                                        <select value={formData.period} onChange={e => setFormData({...formData, period: e.target.value})} className="w-full border border-[#F0EBE1] rounded-lg p-3 text-sm bg-beige-bg text-choc-dark outline-none">
+                                                            <option>Manhã</option><option>Tarde</option><option>Noite</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div className="pt-2">
+                                                    <label className="text-xs font-bold text-choc-dark block mb-1">Pagamento Preferido *</label>
+                                                    <select value={formData.payment} onChange={e => setFormData({...formData, payment: e.target.value})} className="w-full border border-[#F0EBE1] rounded-lg p-3 text-sm bg-beige-bg text-choc-dark outline-none">
+                                                        <option>Pix (Ganhe Mimos)</option>
+                                                        <option>Cartão de Crédito 1x</option>
+                                                    </select>
+                                                    <p className="text-[10px] text-choc-light text-center mt-2 italic">O pagamento não será feito aqui. O Atendimento confirmará as chaves/links no WhatsApp para reserva.</p>
+                                                </div>
+
+                                                <div className="pt-2">
+                                                    <label className="text-xs font-bold text-choc-dark block mb-1">Observações Pessoais</label>
+                                                    <textarea rows="2" value={formData.obs} onChange={e => setFormData({...formData, obs: e.target.value})} className="w-full border border-[#F0EBE1] rounded-lg p-3 text-sm bg-beige-bg focus:ring-1 focus:ring-gold-soft outline-none" placeholder="Recadinhos, tags ou detalhes especiais..."></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                                
+                                {cart.length > 0 && (
+                                    <div className="p-5 bg-white border-t border-[#F0EBE1] sticky bottom-0 z-20">
+                                        <button onClick={handleCheckout} className="w-full bg-[#25D366] hover:bg-[#1EBE5A] text-white py-4 rounded-xl font-bold flex justify-center items-center shadow-lg transition-transform active:scale-95 text-lg">
+                                            <Icons.WhatsApp /> <span className="ml-2">Enviar Pedido por WhatsApp</span>
+                                        </button>
+                                        <p className="text-[9px] text-center mt-3 text-choc-light/70 uppercase font-bold tracking-wider">A reserva só será efetivada após confirmação.</p>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Botão flutuante Zap */}
+                    <a href="https://wa.me/5531984553573" target="_blank" className="fixed bottom-6 left-6 bg-[#25D366] text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-transform hover:scale-110 z-30">
+                        <Icons.WhatsApp />
+                    </a>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
