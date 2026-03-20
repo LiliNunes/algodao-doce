@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR" className="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -14,8 +15,10 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Lato:wght@300;400;700&display=swap"
+        rel="stylesheet">
+
     <script>
         tailwind.config = {
             theme: {
@@ -41,14 +44,31 @@
         }
     </script>
     <style>
-        body { font-family: 'Lato', sans-serif; background-color: #FAF8F5; color: #4A3525; -webkit-tap-highlight-color: transparent; }
-        .font-serif { font-family: 'Playfair Display', serif; }
-        
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: #FAF8F5;
+            color: #4A3525;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+
         /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #FAF8F5; }
-        ::-webkit-scrollbar-thumb { background: #D4AF37; border-radius: 4px; }
-        
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #FAF8F5;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #D4AF37;
+            border-radius: 4px;
+        }
+
         .hero-pattern {
             background-color: #F5F2EB;
             background-image: radial-gradient(#BFA15F 0.5px, transparent 0.5px), radial-gradient(#BFA15F 0.5px, #F5F2EB 0.5px);
@@ -56,10 +76,22 @@
             background-position: 0 0, 10px 10px;
         }
 
-        .cart-enter { animation: slideIn 0.3s ease-out forwards; }
-        @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+        .cart-enter {
+            animation: slideIn 0.3s ease-out forwards;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+            }
+
+            to {
+                transform: translateX(0);
+            }
+        }
     </style>
 </head>
+
 <body>
     <div id="root"></div>
 
@@ -71,40 +103,40 @@
             {
                 category: "Para comer de colher",
                 items: [
-                    { id: 'c1', name: "Dark & Rock's", desc: "Casca de chocolate meio amargo com recheio de brigadeiro cremoso de chocolate meio amargo e crocante de Ovomaltine", image: "assets/ovo-dourado.jpg", options: [{ weight: "150g", price: 45 }, { weight: "300g", price: 85 }] },
-                    { id: 'c2', name: "Pistache", desc: "Casca de chocolate ao leite e chocolate branco saborizado de pistache com recheio de brigadeiro de pistache", image: "https://images.unsplash.com/photo-1514845565127-ec111f008815?q=80&w=400&auto=format&fit=crop", options: [{ weight: "150g", price: 49 }, { weight: "300g", price: 95 }] },
-                    { id: 'c3', name: "Rafaello", desc: "Casca de chocolate branco com recheio de brigadeiro cremoso de coco, amêndoas e creme tipo Rafaello", image: "assets/ovo-branco.jpg", options: [{ weight: "150g", price: 38 }, { weight: "300g", price: 79 }] },
-                    { id: 'c4', name: "Meio a Meio", desc: "Casca de chocolate ao leite e chocolate branco, com recheio de brigadeiro ao leite e brigadeiro branco", image: "assets/ovo-azul.jpg", options: [{ weight: "150g", price: 37 }, { weight: "300g", price: 77 }] },
+                    { id: 'c1', name: "Brigadeiro Crocante", desc: "Casca de chocolate meio amargo com recheio de brigadeiro cremoso de chocolate meio amargo e crocante de Ovomaltine", image: "assets/brigadeiro-crocante.jpeg", options: [{ weight: "150g", price: 45 }, { weight: "300g", price: 85 }] },
+                    { id: 'c2', name: "Pistache", desc: "Casca de chocolate ao leite e chocolate branco saborizado de pistache com recheio de brigadeiro de pistache", image: "assets/pistache-novo.jpeg", options: [{ weight: "150g", price: 49 }, { weight: "300g", price: 95 }] },
+                    { id: 'c3', name: "Rafaello", desc: "Casca de chocolate branco com recheio de brigadeiro cremoso de coco, amêndoas e creme tipo Rafaello", image: "assets/Rafaello-novo.jpg", options: [{ weight: "150g", price: 38 }, { weight: "300g", price: 79 }] },
+                    { id: 'c4', name: "Meio a Meio", desc: "Casca de chocolate ao leite e chocolate branco, com recheio de brigadeiro ao leite e brigadeiro branco", image: "assets/meio-a-meio-novo.jpeg", options: [{ weight: "150g", price: 37 }, { weight: "300g", price: 77 }] },
                 ]
             },
             {
                 category: "Ovos de Casca Recheada",
                 items: [
-                    { id: 'o1', name: "Caramelo Crocante", desc: "Casca de chocolate blend com recheio de caramelo salgado coberto com crocante de chocolate branco e sucrilhos", image: "https://images.unsplash.com/photo-1604085429184-babb7881b5fb?q=80&w=400&auto=format&fit=crop", options: [{ weight: "330g", price: 92 }] },
-                    { id: 'o2', name: "Torta de Limão", desc: "Casca de chocolate branco com wafer e recheio de brigadeiro cremoso de limão siciliano", image: "assets/ovo-branco.jpg", options: [{ weight: "330g", price: 92 }] },
-                    { id: 'o3', name: "Chocotrio", desc: "Casca de chocolate blend com recheio de brigadeiro branco com pedaços de biscoito", image: "https://images.unsplash.com/photo-1520625340-9a3dc68bdfa3?q=80&w=400&auto=format&fit=crop", options: [{ weight: "330g", price: 86 }] },
-                    { id: 'o4', name: "Prestígio", desc: "Casca de chocolate ao leite com recheio de brigadeiro cremoso de coco", image: "https://images.unsplash.com/photo-1598509838043-4aebde5530bb?q=80&w=400&auto=format&fit=crop", options: [{ weight: "330g", price: 86 }] },
+                    { id: 'o1', name: "Caramelo Crocante", desc: "Casca de chocolate blend com recheio de caramelo salgado coberto com crocante de chocolate branco e sucrilhos", image: "assets/caramelo-crocante-novo.jpeg", options: [{ weight: "330g", price: 92 }] },
+                    { id: 'o2', name: "Torta de Limão", desc: "Casca de chocolate branco com wafer e recheio de brigadeiro cremoso de limão siciliano", image: "assets/torta-de-limao-novo.jpeg", options: [{ weight: "330g", price: 92 }] },
+                    { id: 'o3', name: "Chocotrio", desc: "Casca de chocolate blend com recheio de brigadeiro branco com pedaços de biscoito", image: "assets/chocotrio-novo.jpeg", options: [{ weight: "330g", price: 86 }] },
+                    { id: 'o4', name: "Prestígio", desc: "Casca de chocolate ao leite com recheio de brigadeiro cremoso de coco", image: "assets/prestigio-novo.jpeg", options: [{ weight: "330g", price: 86 }] },
                 ]
             },
             {
                 category: "Mimos & Presenteáveis",
                 items: [
-                    { id: 'm1', name: "Ovos de Ouro", desc: "Mini ovos de chocolate blend com recheios variados: 2 pistache, 2 chocolate com rocks, 2 coco", image: "https://images.unsplash.com/photo-1554904269-ad804b4c718c?q=80&w=400&auto=format&fit=crop", options: [{ weight: "400g", price: 84 }] },
-                    { id: 'm2', name: "Ovinhos de Chocolate", desc: "Sabores: meio amargo c/ ovomaltine, ao leite c/ flocos ou branco c/ sucrilhos", image: "https://images.unsplash.com/photo-1590841609989-122e260fb160?q=80&w=400&auto=format&fit=crop", options: [{ weight: "120g", price: 38 }] },
-                    { id: 'm3', name: "Coelho Encantado (Kit)", desc: "1 ovo casca recheada, 1 pote brigadeiro (ao leite+pistache), 3 mini ovos sortidos, coelhinho enfeite.", image: "assets/kit-coelho.jpg", options: [{ weight: "Kit", price: 167 }] },
-                    { id: 'm4', name: "Coelhinho de Páscoa (Infantil)", desc: "Bolsinha de orelhinhas, ovo ao leite c/ brigadeiro, balas Fini 15g, adesivos de patinhas.", image: "https://images.unsplash.com/photo-1555239967-ac946e3d23eb?q=80&w=400&auto=format&fit=crop", options: [{ weight: "Kit", price: 55 }] },
+                    { id: 'm1', name: "Ovos de Ouro", desc: "Mini ovos de chocolate blend com recheios variados: 2 pistache, 2 chocolate com rocks, 2 coco", image: "assets/ovos-de-ouro-novo.jpeg", options: [{ weight: "400g", price: 84 }] },
+                    { id: 'm2', name: "Ovinhos de Chocolate", desc: "Sabores: meio amargo c/ ovomaltine, ao leite c/ flocos ou branco c/ sucrilhos", image: "assets/ovinhos-novo.jpeg", options: [{ weight: "120g", price: 38 }] },
+                    { id: 'm3', name: "Coelho Encantado (Kit)", desc: "1 ovo casca recheada, 1 pote brigadeiro (ao leite+pistache), 3 mini ovos sortidos, coelhinho enfeite.", image: "assets/coelho-encantado-novo.jpeg", options: [{ weight: "Kit", price: 167 }] },
+                    { id: 'm4', name: "Coelhinho de Páscoa (Infantil)", desc: "Bolsinha de orelhinhas, ovo ao leite c/ brigadeiro, balas Fini 15g, adesivos de patinhas.", image: "assets/coelhinho-da-pascoa-novo.jpeg", options: [{ weight: "Kit", price: 55 }] },
                 ]
             }
         ];
 
         // --- ICONES SVG (LUCIDE LITE) ---
         const Icons = {
-            Cart: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>,
-            WhatsApp: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>,
-            Instagram: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>,
-            Check: () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>,
-            X: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>,
-            Heart: () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>,
+            Cart: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="21" r="1" /><circle cx="20" cy="21" r="1" /><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" /></svg>,
+            WhatsApp: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" /></svg>,
+            Instagram: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" /><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" /><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" /></svg>,
+            Check: () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>,
+            X: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>,
+            Heart: () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg>,
         };
 
         // --- FORMATADOR ---
@@ -113,7 +145,7 @@
         // --- COMPONENTES ---
         const ProductCard = ({ product, categoryName, onAdd }) => {
             const [selectedOptIndex, setSelectedOptIndex] = useState(0);
-            
+
             const handleAdd = () => {
                 const option = product.options[selectedOptIndex];
                 onAdd({
@@ -135,11 +167,11 @@
                     </div>
                     <div className="p-5 flex flex-col flex-grow">
                         <p className="text-sm text-choc-light mb-4 line-clamp-3 leading-relaxed flex-grow">{product.desc}</p>
-                        
+
                         {product.options.length > 1 && (
                             <div className="flex space-x-2 mb-4">
                                 {product.options.map((opt, idx) => (
-                                    <button 
+                                    <button
                                         key={idx}
                                         onClick={() => setSelectedOptIndex(idx)}
                                         className={`flex-1 py-1.5 px-2 text-xs font-bold rounded-lg transition-colors border ${selectedOptIndex === idx ? 'bg-choc-dark text-white border-choc-dark shadow-sm' : 'bg-transparent text-choc-dark border-choc-light/40 hover:bg-[#F0EBE1]'}`}
@@ -159,7 +191,7 @@
                             <span className="font-serif text-xl font-bold text-choc-dark">
                                 {formatBRL(product.options[selectedOptIndex].price)}
                             </span>
-                            <button 
+                            <button
                                 onClick={handleAdd}
                                 className="bg-gold-soft hover:bg-[#C59B2E] text-white px-5 py-2.5 rounded-full font-bold text-sm shadow-md transition-all active:scale-95 flex items-center"
                             >
@@ -178,7 +210,7 @@
             // Form States
             const [formData, setFormData] = useState({
                 name: '', phone: '', email: '', instagram: '',
-                method: 'Retirar no Local', period: 'Tarde', date: '',
+                method: 'Retirar no local', period: 'Tarde', date: '',
                 cep: '', bairro: '', address: '', reference: '',
                 payment: 'Pix',
                 obs: ''
@@ -214,44 +246,45 @@
             };
 
             const handleCheckout = () => {
-                if(cart.length === 0) return alert("Seu pedido está vazio!");
-                if(!formData.name || !formData.phone) return alert("Por favor, preencha pelo menos Nome e Celular para contato.");
+                if (cart.length === 0) return alert("Seu pedido está vazio!");
+                if (!formData.name || !formData.phone) return alert("Por favor, preencha pelo menos Nome e Celular para contato.");
 
                 // Gera a string do WhatsApp com formatação elegante e sem emojis para evitar quebra de codificação local
                 let msg = `*NOVO PEDIDO DE PÁSCOA 2026* | Algodão Doce\n`;
                 msg += `--------------------------------------\n\n`;
-                
+
                 msg += `*DADOS DO CLIENTE*\n`;
                 msg += `Nome: ${formData.name}\n`;
                 msg += `Telefone: ${formData.phone}\n`;
-                if(formData.instagram) msg += `Instagram: ${formData.instagram}\n`;
-                
+                if (formData.instagram) msg += `Instagram: ${formData.instagram}\n`;
+
                 msg += `\n*RESUMO DO PEDIDO*\n`;
                 cart.forEach(item => {
-                    msg += `• ${item.quantity}x ${item.name} (${item.weight}) - ${formatBRL(item.price * item.quantity)}\n`;
+                    let w = item.weight.toLowerCase() === 'kit' ? '' : ` (${item.weight})`;
+                    msg += `• ${item.quantity}x ${item.name}${w} - ${formatBRL(item.price * item.quantity)}\n`;
                 });
                 msg += `\nSubtotal: *${formatBRL(cartTotal)}*\n`;
-                
+
                 msg += `\n*PAGAMENTO & ENTREGA*\n`;
                 msg += `Forma de Pagamento: ${formData.payment}\n`;
                 msg += `Modalidade: ${formData.method}\n`;
                 msg += `Data Desejada: ${formData.date ? formData.date.split('-').reverse().join('/') : 'A combinar'} - ${formData.period}\n`;
-                
-                if(formData.method === 'Entrega em Domicílio') {
+
+                if (formData.method === 'Entrega') {
                     msg += `\n*ENDEREÇO DE ENTREGA*\n`;
                     msg += `${formData.address}, ${formData.bairro} - CEP: ${formData.cep}\n`;
-                    if(formData.reference) msg += `Referência: ${formData.reference}\n`;
+                    if (formData.reference) msg += `Referência: ${formData.reference}\n`;
                     msg += `_(O frete será calculado pelo nosso atendimento)_\n`;
                 }
 
-                if(formData.obs) {
+                if (formData.obs) {
                     msg += `\n*OBSERVAÇÕES DO CLIENTE*\n`;
                     msg += `"${formData.obs}"\n`;
                 }
 
                 msg += `\n--------------------------------------\n`;
                 msg += `_Pedido gerado pelo nosso site._\n`;
-                msg += `Aguardo seu retorno para confirmar a disponibilidade e o sinal de 50%!`;
+                msg += `Aguardo seu retorno para confirmar a disponibilidade e o pagamento.`;
 
                 const phone = "5531984553573";
                 // codificando corretamente para o zap
@@ -271,8 +304,8 @@
                 <div className="relative overflow-x-hidden min-h-screen">
                     {/* --- NAVBAR --- */}
                     <nav className="fixed top-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-md border-b border-[#F0EBE1] transition-all py-3 px-4 sm:px-8 flex justify-between items-center shadow-sm">
-                        <div className="font-serif text-2xl font-bold text-choc-dark flex items-center">
-                            <span className="text-gold-soft mr-2">❦</span> Algodão Doce
+                        <div className="flex items-center">
+                            <img src="assets/logo-novo.png" alt="Algodão Doce" className="h-16 sm:h-20 object-contain drop-shadow-md" />
                         </div>
                         <button onClick={() => setIsCartOpen(true)} className="relative p-2 text-choc-dark hover:text-gold-soft transition">
                             <Icons.Cart />
@@ -288,14 +321,14 @@
                     <header className="pt-24 pb-16 px-4 hero-pattern relative overflow-hidden flex flex-col items-center justify-center min-h-[70vh] text-center border-b border-[#E0D5C1]/30">
                         {/* Decorative circle */}
                         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white rounded-full blur-[100px] opacity-60 pointer-events-none"></div>
-                        
+
                         <div className="relative z-10 max-w-3xl mx-auto">
                             <p className="text-gold-soft uppercase tracking-[0.2em] font-bold text-xs sm:text-sm mb-4">Coleção Exclusiva</p>
                             <h1 className="font-serif text-5xl sm:text-7xl font-bold text-choc-dark mb-6 leading-tight">
                                 Páscoa <span className="italic text-gold-soft">2026</span>
                             </h1>
                             <p className="text-lg sm:text-2xl text-choc-light mb-10 font-light max-w-2xl mx-auto">
-                                Encomende doces artesanais premium para presentear quem você ama e celebrar com afeto e sofisticação.
+                                Vai além de um ovo de Páscoa… é um gesto de carinho em forma de chocolate.
                             </p>
                             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                                 <a href="#cardapio" className="bg-choc-dark text-white px-8 py-4 rounded-full font-bold shadow-lg hover:shadow-xl hover:bg-[#38271B] hover:-translate-y-1 transition-all duration-300 w-full sm:w-auto text-center border border-transparent">
@@ -315,7 +348,7 @@
                                 <h2 className="font-serif text-3xl sm:text-4xl font-bold text-choc-dark mb-3">Como realizar sua encomenda</h2>
                                 <p className="text-choc-light">Preparamos um processo prático para adoçar sua vida</p>
                             </div>
-                            
+
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                                 <div className="p-8 bg-beige-bg rounded-3xl text-center border border-[#F0EBE1]">
                                     <div className="w-16 h-16 bg-blue-soft rounded-full flex items-center justify-center text-2xl font-serif font-bold text-choc-dark mx-auto mb-6">1</div>
@@ -330,7 +363,7 @@
                                 <div className="p-8 bg-beige-bg rounded-3xl text-center border border-[#F0EBE1]">
                                     <div className="w-16 h-16 bg-[#FFF2CC] rounded-full flex items-center justify-center text-2xl font-serif font-bold text-choc-dark mx-auto mb-6">3</div>
                                     <h3 className="font-bold text-lg text-choc-dark mb-2">Confirmação via WhatsApp</h3>
-                                    <p className="text-choc-light text-sm">Envie a solicitação. Entraremos em contato para confirmar o pagamento (50% de sinal) e validar a reserva!</p>
+                                    <p className="text-choc-light text-sm">Envie a solicitação. Entraremos em contato para confirmar o pagamento e validar a reserva!</p>
                                 </div>
                             </div>
                         </div>
@@ -371,8 +404,8 @@
                                     <p>Os pedidos ou alterações devem ser feitos com no mínimo 3 dias úteis de antecedência.</p>
                                 </div>
                                 <div className="p-4 border border-[#644B36] rounded-xl">
-                                    <p className="font-bold text-white text-lg mb-2">50% Sinal</p>
-                                    <p>A reserva só é confirmada mediante o pagamento de 50% de entrada (Pix ou Cartão). O restante é pago 1 dia antes.</p>
+                                    <p className="font-bold text-white text-lg mb-2">Condições de Pagamento</p>
+                                    <p>A reserva só é confirmada mediante o pagamento Pix ou 1x cartão de crédito. </p>
                                 </div>
                                 <div className="p-4 border border-[#644B36] rounded-xl">
                                     <p className="font-bold text-white text-lg mb-2">Entregas</p>
@@ -385,14 +418,14 @@
                     {/* --- FOOTER --- */}
                     <footer className="bg-white py-12 px-4 border-t border-[#F0EBE1]">
                         <div className="max-w-6xl mx-auto flex flex-col items-center justify-center text-center">
-                            <h2 className="font-serif text-3xl font-bold text-choc-dark mb-4">Algodão Doce</h2>
+                            <img src="assets/logo-novo.png" alt="Algodão Doce" className="h-32 sm:h-40 object-contain mb-8 drop-shadow-lg" />
                             <p className="text-choc-light mb-6 max-w-md">Doces artesanais feitos com carinho para tornar sua Páscoa ainda mais especial.</p>
                             <div className="flex space-x-6 text-choc-dark">
                                 <a href="https://wa.me/5531984553573" className="hover:text-gold-soft transition flex items-center">
                                     <Icons.WhatsApp /><span className="ml-2 font-bold">(31) 98455-3573</span>
                                 </a>
-                                <a href="#" className="hover:text-gold-soft transition flex items-center">
-                                    <Icons.Instagram /><span className="ml-2 font-bold">@algodao.docebh</span>
+                                <a href="https://www.instagram.com/algodao.docebh?igsh=MTBxdGdwcGhjczR2ZA==" target="_blank" rel="noopener noreferrer" className="hover:text-gold-soft transition flex items-center">
+                                    <Icons.Instagram /><span className="ml-2 font-bold">@algodaodoce.bh</span>
                                 </a>
                             </div>
                             <p className="text-xs text-choc-light/60 mt-10">© 2026 Algodão Doce. Todos os direitos reservados.</p>
@@ -403,7 +436,7 @@
                     {isCartOpen && (
                         <div className="fixed inset-0 z-50 flex justify-end">
                             <div className="absolute inset-0 bg-choc-dark/40 backdrop-blur-sm transition-opacity" onClick={() => setIsCartOpen(false)}></div>
-                            
+
                             <div className="relative w-full max-w-md bg-beige-card h-full shadow-2xl flex flex-col cart-enter overflow-y-auto">
                                 <div className="p-5 border-b border-[#F0EBE1] flex justify-between items-center bg-white sticky top-0 z-10">
                                     <h2 className="font-serif text-2xl font-bold text-choc-dark">Seu Pedido</h2>
@@ -450,28 +483,28 @@
                                         <div className="bg-white p-5 rounded-2xl border border-[#F0EBE1] shadow-sm mb-10">
                                             <h3 className="font-serif text-xl font-bold text-choc-dark mb-4 border-b border-[#F0EBE1] pb-2">Detalhes da Encomenda</h3>
                                             <div className="space-y-4">
-                                                <div><label className="text-xs font-bold text-choc-dark block mb-1">Nome Completo *</label><input type="text" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} className="w-full border border-[#F0EBE1] rounded-lg p-3 text-sm bg-beige-bg focus:ring-1 focus:ring-gold-soft outline-none" placeholder="Ex: Maria Fernanda" /></div>
+                                                <div><label className="text-xs font-bold text-choc-dark block mb-1">Nome Completo *</label><input type="text" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="w-full border border-[#F0EBE1] rounded-lg p-3 text-sm bg-beige-bg focus:ring-1 focus:ring-gold-soft outline-none" placeholder="Ex: Maria Fernanda" /></div>
                                                 <div className="flex space-x-3">
-                                                    <div className="flex-1"><label className="text-xs font-bold text-choc-dark block mb-1">Celular (WhatsApp) *</label><input type="tel" value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} className="w-full border border-[#F0EBE1] rounded-lg p-3 text-sm bg-beige-bg focus:ring-1 focus:ring-gold-soft outline-none" placeholder="(00) 00000-0000" /></div>
-                                                    <div className="flex-1"><label className="text-xs font-bold text-choc-dark block mb-1">Instagram</label><input type="text" value={formData.instagram} onChange={e => setFormData({...formData, instagram: e.target.value})} className="w-full border border-[#F0EBE1] rounded-lg p-3 text-sm bg-beige-bg focus:ring-1 focus:ring-gold-soft outline-none" placeholder="@seu.perfil" /></div>
+                                                    <div className="flex-1"><label className="text-xs font-bold text-choc-dark block mb-1">Celular (WhatsApp) *</label><input type="tel" value={formData.phone} onChange={e => setFormData({ ...formData, phone: e.target.value })} className="w-full border border-[#F0EBE1] rounded-lg p-3 text-sm bg-beige-bg focus:ring-1 focus:ring-gold-soft outline-none" placeholder="(00) 00000-0000" /></div>
+                                                    <div className="flex-1"><label className="text-xs font-bold text-choc-dark block mb-1">Instagram</label><input type="text" value={formData.instagram} onChange={e => setFormData({ ...formData, instagram: e.target.value })} className="w-full border border-[#F0EBE1] rounded-lg p-3 text-sm bg-beige-bg focus:ring-1 focus:ring-gold-soft outline-none" placeholder="@seu.perfil" /></div>
                                                 </div>
-                                                
+
                                                 <div className="pt-4">
                                                     <label className="text-xs font-bold text-choc-dark block mb-2">Modalidade *</label>
                                                     <div className="flex space-x-2">
-                                                        <button onClick={() => setFormData({...formData, method: 'Retirar no Local'})} className={`flex-1 py-2 text-sm font-bold rounded-lg border ${formData.method === 'Retirar no Local' ? 'bg-choc-dark text-white border-choc-dark' : 'bg-transparent text-choc-light border-[#F0EBE1]'}`}>Retirar no Local</button>
-                                                        <button onClick={() => setFormData({...formData, method: 'Entrega em Domicílio'})} className={`flex-1 py-2 text-sm font-bold rounded-lg border ${formData.method === 'Entrega em Domicílio' ? 'bg-choc-dark text-white border-choc-dark' : 'bg-transparent text-choc-light border-[#F0EBE1]'}`}>Entrega em Domicílio</button>
+                                                        <button onClick={() => setFormData({ ...formData, method: 'Retirar no local' })} className={`flex-1 py-2 text-sm font-bold rounded-lg border ${formData.method === 'Retirar no local' ? 'bg-choc-dark text-white border-choc-dark' : 'bg-transparent text-choc-light border-[#F0EBE1]'}`}>Retirar no local</button>
+                                                        <button onClick={() => setFormData({ ...formData, method: 'Entrega' })} className={`flex-1 py-2 text-sm font-bold rounded-lg border ${formData.method === 'Entrega' ? 'bg-choc-dark text-white border-choc-dark' : 'bg-transparent text-choc-light border-[#F0EBE1]'}`}>Entrega</button>
                                                     </div>
                                                 </div>
 
-                                                {formData.method === 'Entrega em Domicílio' && (
+                                                {formData.method === 'Entrega' && (
                                                     <div className="p-3 bg-blue-soft/30 rounded-lg space-y-3 mt-2 border border-blue-100">
                                                         <div className="flex space-x-2">
-                                                            <div className="w-1/3"><input type="text" value={formData.cep} onChange={e => setFormData({...formData, cep: e.target.value})} placeholder="CEP" className="w-full border border-[#F0EBE1] rounded-lg p-2 text-sm bg-white" /></div>
-                                                            <div className="w-2/3"><input type="text" value={formData.bairro} onChange={e => setFormData({...formData, bairro: e.target.value})} placeholder="Bairro" className="w-full border border-[#F0EBE1] rounded-lg p-2 text-sm bg-white" /></div>
+                                                            <div className="w-1/3"><input type="text" value={formData.cep} onChange={e => setFormData({ ...formData, cep: e.target.value })} placeholder="CEP" className="w-full border border-[#F0EBE1] rounded-lg p-2 text-sm bg-white" /></div>
+                                                            <div className="w-2/3"><input type="text" value={formData.bairro} onChange={e => setFormData({ ...formData, bairro: e.target.value })} placeholder="Bairro" className="w-full border border-[#F0EBE1] rounded-lg p-2 text-sm bg-white" /></div>
                                                         </div>
-                                                        <div><input type="text" value={formData.address} onChange={e => setFormData({...formData, address: e.target.value})} placeholder="Rua, Número, Complemento" className="w-full border border-[#F0EBE1] rounded-lg p-2 text-sm bg-white" /></div>
-                                                        <div><input type="text" value={formData.reference} onChange={e => setFormData({...formData, reference: e.target.value})} placeholder="Ponto de Referência" className="w-full border border-[#F0EBE1] rounded-lg p-2 text-sm bg-white" /></div>
+                                                        <div><input type="text" value={formData.address} onChange={e => setFormData({ ...formData, address: e.target.value })} placeholder="Rua, Número, Complemento" className="w-full border border-[#F0EBE1] rounded-lg p-2 text-sm bg-white" /></div>
+                                                        <div><input type="text" value={formData.reference} onChange={e => setFormData({ ...formData, reference: e.target.value })} placeholder="Ponto de Referência" className="w-full border border-[#F0EBE1] rounded-lg p-2 text-sm bg-white" /></div>
                                                         <p className="text-[10px] text-blue-800 text-center font-bold">Frete será calculado pelo atendimento no WhatsApp.</p>
                                                     </div>
                                                 )}
@@ -479,11 +512,11 @@
                                                 <div className="flex space-x-3 pt-2">
                                                     <div className="flex-1">
                                                         <label className="text-xs font-bold text-choc-dark block mb-1">Data</label>
-                                                        <input type="date" value={formData.date} onChange={e => setFormData({...formData, date: e.target.value})} className="w-full border border-[#F0EBE1] rounded-lg p-3 text-sm bg-beige-bg text-choc-light" />
+                                                        <input type="date" value={formData.date} onChange={e => setFormData({ ...formData, date: e.target.value })} className="w-full border border-[#F0EBE1] rounded-lg p-3 text-sm bg-beige-bg text-choc-light" />
                                                     </div>
                                                     <div className="flex-1">
                                                         <label className="text-xs font-bold text-choc-dark block mb-1">Período</label>
-                                                        <select value={formData.period} onChange={e => setFormData({...formData, period: e.target.value})} className="w-full border border-[#F0EBE1] rounded-lg p-3 text-sm bg-beige-bg text-choc-dark outline-none">
+                                                        <select value={formData.period} onChange={e => setFormData({ ...formData, period: e.target.value })} className="w-full border border-[#F0EBE1] rounded-lg p-3 text-sm bg-beige-bg text-choc-dark outline-none">
                                                             <option>Manhã</option><option>Tarde</option><option>Noite</option>
                                                         </select>
                                                     </div>
@@ -491,22 +524,22 @@
 
                                                 <div className="pt-2">
                                                     <label className="text-xs font-bold text-choc-dark block mb-1">Pagamento Preferido *</label>
-                                                    <select value={formData.payment} onChange={e => setFormData({...formData, payment: e.target.value})} className="w-full border border-[#F0EBE1] rounded-lg p-3 text-sm bg-beige-bg text-choc-dark outline-none">
-                                                        <option>Pix (Ganhe Mimos)</option>
+                                                    <select value={formData.payment} onChange={e => setFormData({ ...formData, payment: e.target.value })} className="w-full border border-[#F0EBE1] rounded-lg p-3 text-sm bg-beige-bg text-choc-dark outline-none">
+                                                        <option>Pix</option>
                                                         <option>Cartão de Crédito 1x</option>
                                                     </select>
                                                     <p className="text-[10px] text-choc-light text-center mt-2 italic">O pagamento não será feito aqui. O Atendimento confirmará as chaves/links no WhatsApp para reserva.</p>
                                                 </div>
 
                                                 <div className="pt-2">
-                                                    <label className="text-xs font-bold text-choc-dark block mb-1">Observações Pessoais</label>
-                                                    <textarea rows="2" value={formData.obs} onChange={e => setFormData({...formData, obs: e.target.value})} className="w-full border border-[#F0EBE1] rounded-lg p-3 text-sm bg-beige-bg focus:ring-1 focus:ring-gold-soft outline-none" placeholder="Recadinhos, tags ou detalhes especiais..."></textarea>
+                                                    <label className="text-xs font-bold text-choc-dark block mb-1">Observações</label>
+                                                    <textarea rows="2" value={formData.obs} onChange={e => setFormData({ ...formData, obs: e.target.value })} className="w-full border border-[#F0EBE1] rounded-lg p-3 text-sm bg-beige-bg focus:ring-1 focus:ring-gold-soft outline-none" placeholder="Recadinhos, tags ou detalhes especiais..."></textarea>
                                                 </div>
                                             </div>
                                         </div>
                                     )}
                                 </div>
-                                
+
                                 {cart.length > 0 && (
                                     <div className="p-5 bg-white border-t border-[#F0EBE1] sticky bottom-0 z-20">
                                         <button onClick={handleCheckout} className="w-full bg-[#25D366] hover:bg-[#1EBE5A] text-white py-4 rounded-xl font-bold flex justify-center items-center shadow-lg transition-transform active:scale-95 text-lg">
@@ -531,4 +564,5 @@
         root.render(<App />);
     </script>
 </body>
+
 </html>
