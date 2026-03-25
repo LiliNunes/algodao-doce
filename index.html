@@ -205,7 +205,12 @@
 
         const App = () => {
             const [cart, setCart] = useState([]);
+            const [promoInput, setPromoInput] = useState('');
+            const [discount, setDiscount] = useState(0);
             const [isCartOpen, setIsCartOpen] = useState(false);
+            const [toastMsg, setToastMsg] = useState('');
+            const [toastKey, setToastKey] = useState(0);
+            const toastTimeoutRef = React.useRef(null);
 
             // Form States
             const [formData, setFormData] = useState({
@@ -217,7 +222,8 @@
             });
 
             // Resumo do pedido
-            const cartTotal = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+            const subtotal = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+            const cartTotal = subtotal - (subtotal * discount);
             const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
 
             const addToCart = (productInfo) => {
@@ -228,7 +234,11 @@
                     }
                     return [...prev, { ...productInfo, quantity: 1 }];
                 });
-                setIsCartOpen(true); // Abre o carrinho automaticamente
+                setIsCartOpen(true);
+                setToastMsg('Item adicionado à sua sacola!');
+                setToastKey(prev => prev + 1);
+                if (toastTimeoutRef.current) clearTimeout(toastTimeoutRef.current);
+                toastTimeoutRef.current = setTimeout(() => setToastMsg(''), 1000);
             };
 
             const updateQuantity = (id, delta) => {
@@ -243,6 +253,18 @@
 
             const removeFromCart = (id) => {
                 setCart(prev => prev.filter(i => i.id !== id));
+            };
+
+            
+            const applyPromo = () => {
+                if(!promoInput) return;
+                if(promoInput.toUpperCase() === 'PASCOA10') {
+                    setDiscount(0.10);
+                    alert("Cupom de 10% aplicado com sucesso!");
+                } else {
+                    setDiscount(0);
+                    alert("Cupom inválido ou expirado.");
+                }
             };
 
             const handleCheckout = () => {
@@ -263,7 +285,9 @@
                     let w = item.weight.toLowerCase() === 'kit' ? '' : ` (${item.weight})`;
                     msg += `• ${item.quantity}x ${item.name}${w} - ${formatBRL(item.price * item.quantity)}\n`;
                 });
-                msg += `\nSubtotal: *${formatBRL(cartTotal)}*\n`;
+                msg += `\nSubtotal: *${formatBRL(subtotal)}*\n`;
+                if(discount > 0) msg += `Desconto: *- ${formatBRL(subtotal * discount)}*\n`;
+                msg += `\nTotal a Pagar: *${formatBRL(cartTotal)}*\n`;
 
                 msg += `\n*PAGAMENTO & ENTREGA*\n`;
                 msg += `Forma de Pagamento: ${formData.payment}\n`;
@@ -303,6 +327,20 @@
             return (
                 <div className="relative overflow-x-hidden min-h-screen">
                     {/* --- NAVBAR --- */}
+                    {/* --- TOAST NOTIFICATION --- */}
+                    {toastMsg && (
+                        <div key={toastKey} className="fixed top-24 right-4 sm:right-8 z-[999] animate-toast">
+                            <div className="bg-[#25D366] text-white pl-4 pr-3 py-3 rounded-xl shadow-xl flex items-center justify-between min-w-[280px] overflow-hidden relative border border-[#1EBE5A]">
+                                <div className="flex items-center space-x-3 z-10">
+                                    <div className="bg-white rounded-full p-1 text-[#25D366] flex-shrink-0">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                                    </div>
+                                    <span className="font-bold text-sm tracking-wide">{toastMsg}</span>
+                                </div>
+                                <div className="absolute bottom-0 left-0 h-1 bg-white/40 animate-progress"></div>
+                            </div>
+                        </div>
+                    )}
                     <nav className="fixed top-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-md border-b border-[#F0EBE1] transition-all py-3 px-4 sm:px-8 flex justify-between items-center shadow-sm">
                         <div className="flex items-center">
                             <img src="assets/logo-novo.png" alt="Algodão Doce" className="h-16 sm:h-20 object-contain drop-shadow-md" />
@@ -318,6 +356,30 @@
                     </nav>
 
                     {/* --- HERO --- */}
+                    <section id="cardapio" className="pt-28 pb-20 px-4 bg-beige-bg">
+                        <div className="max-w-6xl mx-auto">
+                            <div className="text-center mb-16">
+                                <span className="text-gold-soft text-2xl">❦</span>
+                                <h2 className="font-serif text-4xl sm:text-5xl font-bold text-choc-dark mt-4 mb-4">Nosso Cardápio</h2>
+                                <p className="text-choc-light max-w-2xl mx-auto">Sabores inesquecíveis, produzidos com o mais puro chocolate e muito amor em cada detalhe.</p>
+                            </div>
+
+                            {products.map((cat, idx) => (
+                                <div key={idx} className="mb-20">
+                                    <h3 className="font-serif text-3xl font-italic text-choc-dark mb-8 border-b border-[#E0D5C1] pb-2 flex items-center">
+                                        <span className="w-2 h-2 rounded-full bg-gold-soft mr-3"></span>
+                                        {cat.category}
+                                    </h3>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                                        {cat.items.map(product => (
+                                            <ProductCard key={product.id} product={product} categoryName={cat.category} onAdd={addToCart} />
+                                        ))}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+
                     <header className="pt-24 pb-16 px-4 hero-pattern relative overflow-hidden flex flex-col items-center justify-center min-h-[70vh] text-center border-b border-[#E0D5C1]/30">
                         {/* Decorative circle */}
                         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white rounded-full blur-[100px] opacity-60 pointer-events-none"></div>
@@ -340,6 +402,12 @@
                             </div>
                         </div>
                     </header>
+
+                    {/* --- COMO FUNCIONA --- */}
+                    
+
+                    {/* --- CARDÁPIO --- */}
+                    
 
                     {/* --- COMO FUNCIONA --- */}
                     <section className="py-20 px-4 bg-white">
@@ -366,31 +434,6 @@
                                     <p className="text-choc-light text-sm">Envie a solicitação. Entraremos em contato para confirmar o pagamento e validar a reserva!</p>
                                 </div>
                             </div>
-                        </div>
-                    </section>
-
-                    {/* --- CARDÁPIO --- */}
-                    <section id="cardapio" className="py-20 px-4 bg-beige-bg">
-                        <div className="max-w-6xl mx-auto">
-                            <div className="text-center mb-16">
-                                <span className="text-gold-soft text-2xl">❦</span>
-                                <h2 className="font-serif text-4xl sm:text-5xl font-bold text-choc-dark mt-4 mb-4">Nosso Cardápio</h2>
-                                <p className="text-choc-light max-w-2xl mx-auto">Sabores inesquecíveis, produzidos com o mais puro chocolate e muito amor em cada detalhe.</p>
-                            </div>
-
-                            {products.map((cat, idx) => (
-                                <div key={idx} className="mb-20">
-                                    <h3 className="font-serif text-3xl font-italic text-choc-dark mb-8 border-b border-[#E0D5C1] pb-2 flex items-center">
-                                        <span className="w-2 h-2 rounded-full bg-gold-soft mr-3"></span>
-                                        {cat.category}
-                                    </h3>
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                                        {cat.items.map(product => (
-                                            <ProductCard key={product.id} product={product} categoryName={cat.category} onAdd={addToCart} />
-                                        ))}
-                                    </div>
-                                </div>
-                            ))}
                         </div>
                     </section>
 
@@ -483,9 +526,9 @@
                                         <div className="bg-white p-5 rounded-2xl border border-[#F0EBE1] shadow-sm mb-10">
                                             <h3 className="font-serif text-xl font-bold text-choc-dark mb-4 border-b border-[#F0EBE1] pb-2">Detalhes da Encomenda</h3>
                                             <div className="space-y-4">
-                                                <div><label className="text-xs font-bold text-choc-dark block mb-1">Nome Completo *</label><input type="text" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="w-full border border-[#F0EBE1] rounded-lg p-3 text-sm bg-beige-bg focus:ring-1 focus:ring-gold-soft outline-none" placeholder="Ex: Maria Fernanda" /></div>
+                                                <div><label className="text-xs font-bold text-choc-dark block mb-1">Nome Completo *</label><input type="text" maxLength={30} value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="w-full border border-[#F0EBE1] rounded-lg p-3 text-sm bg-beige-bg focus:ring-1 focus:ring-gold-soft outline-none" placeholder="Ex: Maria Fernanda" /></div>
                                                 <div className="flex space-x-3">
-                                                    <div className="flex-1"><label className="text-xs font-bold text-choc-dark block mb-1">Celular (WhatsApp) *</label><input type="tel" value={formData.phone} onChange={e => setFormData({ ...formData, phone: e.target.value })} className="w-full border border-[#F0EBE1] rounded-lg p-3 text-sm bg-beige-bg focus:ring-1 focus:ring-gold-soft outline-none" placeholder="(00) 00000-0000" /></div>
+                                                    <div className="flex-1"><label className="text-xs font-bold text-choc-dark block mb-1">Celular (WhatsApp) *</label><input type="tel" maxLength={11} value={formData.phone} onChange={e => setFormData({ ...formData, phone: e.target.value.replace(/\D/g, '') })} className="w-full border border-[#F0EBE1] rounded-lg p-3 text-sm bg-beige-bg focus:ring-1 focus:ring-gold-soft outline-none" placeholder="Ex: 31991605336" /></div>
                                                     <div className="flex-1"><label className="text-xs font-bold text-choc-dark block mb-1">Instagram</label><input type="text" value={formData.instagram} onChange={e => setFormData({ ...formData, instagram: e.target.value })} className="w-full border border-[#F0EBE1] rounded-lg p-3 text-sm bg-beige-bg focus:ring-1 focus:ring-gold-soft outline-none" placeholder="@seu.perfil" /></div>
                                                 </div>
 
@@ -533,7 +576,7 @@
 
                                                 <div className="pt-2">
                                                     <label className="text-xs font-bold text-choc-dark block mb-1">Observações</label>
-                                                    <textarea rows="2" value={formData.obs} onChange={e => setFormData({ ...formData, obs: e.target.value })} className="w-full border border-[#F0EBE1] rounded-lg p-3 text-sm bg-beige-bg focus:ring-1 focus:ring-gold-soft outline-none" placeholder="Recadinhos, tags ou detalhes especiais..."></textarea>
+                                                    <textarea rows="2" maxLength={500} value={formData.obs} onChange={e => setFormData({ ...formData, obs: e.target.value })} className="w-full border border-[#F0EBE1] rounded-lg p-3 text-sm bg-beige-bg focus:ring-1 focus:ring-gold-soft outline-none" placeholder="Recadinhos, tags ou detalhes especiais..."></textarea>
                                                 </div>
                                             </div>
                                         </div>
