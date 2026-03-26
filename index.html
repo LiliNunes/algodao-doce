@@ -528,9 +528,9 @@
                                             <div className="space-y-4">
                                                 <div><label className="text-xs font-bold text-choc-dark block mb-1">Nome Completo *</label><input type="text" maxLength={30} value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="w-full border border-[#F0EBE1] rounded-lg p-3 text-sm bg-beige-bg focus:ring-1 focus:ring-gold-soft outline-none" placeholder="Ex: Maria Fernanda" /></div>
                                                 <div className="flex space-x-3">
-                                                    <div className="flex-1"><label className="text-xs font-bold text-choc-dark block mb-1">WhatsApp *</label><input type="tel" maxLength={15} value={formData.phone} onChange={e => { let val = e.target.value.replace(/\D/g, ''); if(val.length > 11) val = val.substring(0, 11); val = val.replace(/^(\d{2})(\d)/g, '($1) $2'); val = val.replace(/(\d)(\d{4})$/, '$1-$2'); setFormData({ ...formData, phone: val }); }} className="w-full border border-[#F0EBE1] rounded-lg p-3 text-sm bg-beige-bg focus:ring-1 focus:ring-gold-soft outline-none" placeholder="(31) 99160-5336" /></div>
-                                                    <div className="flex-1">
-                                                        <label className="text-xs font-bold text-choc-dark block mb-1">Cupom de Desconto</label>
+                                                    <div className="w-1/2 min-w-0"><label className="text-xs font-bold text-choc-dark block mb-1">WhatsApp *</label><input type="tel" maxLength={15} value={formData.phone} onChange={e => { let val = e.target.value.replace(/\D/g, ''); if(val.length > 11) val = val.substring(0, 11); val = val.replace(/^(\d{2})(\d)/g, '($1) $2'); val = val.replace(/(\d)(\d{4})$/, '$1-$2'); setFormData({ ...formData, phone: val }); }} className="w-full border border-[#F0EBE1] rounded-lg p-3 text-sm bg-beige-bg focus:ring-1 focus:ring-gold-soft outline-none" placeholder="" /></div>
+                                                    <div className="w-1/2 min-w-0">
+                                                        <label className="text-xs font-bold text-choc-dark block mb-1 truncate">Cupom de Desconto</label>
                                                         <div className="flex items-center space-x-2">
                                                             <input type="text" maxLength={20} placeholder="" value={promoInput} onChange={(e)=>setPromoInput(e.target.value)} className="w-full border border-[#F0EBE1] rounded-lg p-3 text-sm bg-beige-bg uppercase focus:ring-1 focus:ring-gold-soft outline-none" />
                                                             <button type="button" onClick={applyPromo} className="bg-choc-dark text-white text-xs px-3 py-3 rounded-lg font-bold hover:bg-[#38271B] transition-colors">OK</button>
@@ -559,11 +559,11 @@
                                                 )}
 
                                                 <div className="flex space-x-3 pt-2">
-                                                    <div className="flex-1">
+                                                    <div className="w-1/2 min-w-0">
                                                         <label className="text-xs font-bold text-choc-dark block mb-1">Data</label>
-                                                        <input type="date" value={formData.date} onChange={e => setFormData({ ...formData, date: e.target.value })} className="w-full border border-[#F0EBE1] rounded-lg p-3 text-sm bg-beige-bg text-choc-light" />
+                                                        <input type="date" min={new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().split('T')[0]} value={formData.date} onChange={e => setFormData({ ...formData, date: e.target.value })} className="w-full border border-[#F0EBE1] rounded-lg p-3 text-sm bg-beige-bg text-choc-light" />
                                                     </div>
-                                                    <div className="flex-1">
+                                                    <div className="w-1/2 min-w-0">
                                                         <label className="text-xs font-bold text-choc-dark block mb-1">Período</label>
                                                         <select value={formData.period} onChange={e => setFormData({ ...formData, period: e.target.value })} className="w-full border border-[#F0EBE1] rounded-lg p-3 text-sm bg-beige-bg text-choc-dark outline-none">
                                                             <option>Manhã</option><option>Tarde</option><option>Noite</option>
