@@ -21,6 +21,7 @@
 
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
@@ -49,6 +50,12 @@
             background-color: #FAF8F5;
             color: #4A3525;
             -webkit-tap-highlight-color: transparent;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        html.dark body {
+            background-color: #1a1512;
+            color: #F5F2EB;
         }
 
         .font-serif {
@@ -64,6 +71,10 @@
             background: #FAF8F5;
         }
 
+        html.dark ::-webkit-scrollbar-track {
+            background: #1a1512;
+        }
+
         ::-webkit-scrollbar-thumb {
             background: #D4AF37;
             border-radius: 4px;
@@ -74,6 +85,12 @@
             background-image: radial-gradient(#BFA15F 0.5px, transparent 0.5px), radial-gradient(#BFA15F 0.5px, #F5F2EB 0.5px);
             background-size: 20px 20px;
             background-position: 0 0, 10px 10px;
+            transition: background-color 0.3s;
+        }
+
+        html.dark .hero-pattern {
+            background-color: #241d18;
+            background-image: radial-gradient(#BFA15F 0.5px, transparent 0.5px), radial-gradient(#BFA15F 0.5px, #241d18 0.5px);
         }
 
         .cart-enter {
@@ -121,8 +138,8 @@
             {
                 category: "Mimos & Presenteáveis",
                 items: [
-                    { id: 'm1', name: "Ovos de Ouro", desc: "Mini ovos de chocolate blend com recheios variados: 2 pistache, 2 chocolate com rocks, 2 coco", image: "assets/ovos-de-ouro-novo.jpeg", options: [{ weight: "400g", price: 84 }] },
-                    { id: 'm2', name: "Ovinhos de Chocolate", desc: "Sabores: meio amargo c/ ovomaltine, ao leite c/ flocos ou branco c/ sucrilhos", image: "assets/ovinhos-novo.jpeg", options: [{ weight: "120g", price: 38 }] },
+                    { id: 'm1', name: "Ovos de Ouro", desc: "Mini ovos de chocolate blend com recheio: brigadeiro de pistache; brigadeiro de coco; brigadeiro ao leite com ovomaltine", image: "assets/ovos-de-ouro-novo.jpeg", options: [{ weight: "400g", price: 84 }] },
+                    { id: 'm2', name: "Ovinhos de Chocolate", desc: "Um mix com os três sabores juntos: meio amargo com ovomaltine, ao Leite com flocos e chocolate branco com sucrilhos", image: "assets/ovinhos-novo.jpeg", options: [{ weight: "120g", price: 38 }] },
                     { id: 'm3', name: "Coelho Encantado (Kit)", desc: "1 ovo casca recheada, 1 pote brigadeiro (ao leite+pistache), 3 mini ovos sortidos, coelhinho enfeite.", image: "assets/coelho-encantado-novo.jpeg", options: [{ weight: "Kit", price: 167 }] },
                     { id: 'm4', name: "Coelhinho de Páscoa (Infantil)", desc: "Bolsinha de orelhinhas, ovo ao leite c/ brigadeiro, balas Fini 15g, adesivos de patinhas.", image: "assets/coelhinho-da-pascoa-novo.jpeg", options: [{ weight: "Kit", price: 55 }] },
                 ]
@@ -137,6 +154,8 @@
             Check: () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>,
             X: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>,
             Heart: () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg>,
+            Sun: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="5" /><line x1="12" y1="1" x2="12" y2="3" /><line x1="12" y1="21" x2="12" y2="23" /><line x1="4.22" y1="4.22" x2="5.64" y2="5.64" /><line x1="18.36" y1="18.36" x2="19.78" y2="19.78" /><line x1="1" y1="12" x2="3" y2="12" /><line x1="21" y1="12" x2="23" y2="12" /><line x1="4.22" y1="19.78" x2="5.64" y2="18.36" /><line x1="18.36" y1="5.64" x2="19.78" y2="4.22" /></svg>,
+            Moon: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" /></svg>,
         };
 
         // --- FORMATADOR ---
@@ -159,14 +178,16 @@
             };
 
             return (
-                <div className="bg-beige-card rounded-2xl overflow-hidden shadow-elegant transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl border border-[#F0EBE1] flex flex-col h-full">
+                <div className="bg-beige-card dark:bg-[#1a1512] rounded-2xl overflow-hidden shadow-elegant transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl border border-[#F0EBE1] dark:border-[#38271B] flex flex-col h-full">
                     <div className="relative h-48 sm:h-64 overflow-hidden group">
                         <img src={product.image} alt={product.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-60"></div>
                         <h3 className="absolute bottom-4 left-4 font-serif text-2xl text-white font-semibold drop-shadow-md">{product.name}</h3>
                     </div>
                     <div className="p-5 flex flex-col flex-grow">
-                        <p className="text-sm text-choc-light mb-4 line-clamp-3 leading-relaxed flex-grow">{product.desc}</p>
+                        <div className="mb-4 flex-grow flex flex-col items-start">
+                            <p className="text-sm text-choc-light dark:text-[#DFD0C3] leading-relaxed">{product.desc}</p>
+                        </div>
 
                         {product.options.length > 1 && (
                             <div className="flex space-x-2 mb-4">
@@ -174,7 +195,7 @@
                                     <button
                                         key={idx}
                                         onClick={() => setSelectedOptIndex(idx)}
-                                        className={`flex-1 py-1.5 px-2 text-xs font-bold rounded-lg transition-colors border ${selectedOptIndex === idx ? 'bg-choc-dark text-white border-choc-dark shadow-sm' : 'bg-transparent text-choc-dark border-choc-light/40 hover:bg-[#F0EBE1]'}`}
+                                        className={`flex-1 py-1.5 px-2 text-xs font-bold rounded-lg transition-colors border ${selectedOptIndex === idx ? 'bg-choc-dark text-white border-choc-dark shadow-sm dark:bg-[#BFA15F] dark:border-[#BFA15F] dark:text-gray-900' : 'bg-transparent text-choc-dark dark:text-[#DFD0C3] border-choc-light/40 hover:bg-[#F0EBE1] dark:hover:bg-[#38271B]'}`}
                                     >
                                         {opt.weight} - {formatBRL(opt.price)}
                                     </button>
@@ -183,12 +204,12 @@
                         )}
                         {product.options.length === 1 && (
                             <div className="mb-4">
-                                <span className="inline-block bg-[#F0EBE1] text-choc-dark text-xs font-bold px-3 py-1 rounded-full">{product.options[0].weight}</span>
+                                <span className="inline-block bg-[#F0EBE1] dark:bg-[#38271B] text-choc-dark dark:text-[#DFD0C3] text-xs font-bold px-3 py-1 rounded-full">{product.options[0].weight}</span>
                             </div>
                         )}
 
-                        <div className="flex justify-between items-center mt-auto pt-4 border-t border-[#F0EBE1]">
-                            <span className="font-serif text-xl font-bold text-choc-dark">
+                        <div className="flex justify-between items-center mt-auto pt-4 border-t border-[#F0EBE1] dark:border-[#38271B]">
+                            <span className="font-serif text-xl font-bold text-choc-dark dark:text-[#F5F2EB]">
                                 {formatBRL(product.options[selectedOptIndex].price)}
                             </span>
                             <button
@@ -211,6 +232,14 @@
             const [toastMsg, setToastMsg] = useState('');
             const [toastKey, setToastKey] = useState(0);
             const toastTimeoutRef = React.useRef(null);
+            
+            // Dark Mode State
+            const [isDarkMode, setIsDarkMode] = useState(false);
+
+            useEffect(() => {
+                if (isDarkMode) document.documentElement.classList.add('dark');
+                else document.documentElement.classList.remove('dark');
+            }, [isDarkMode]);
 
             // Form States
             const [formData, setFormData] = useState({
@@ -248,7 +277,7 @@
                         return newQ > 0 ? { ...i, quantity: newQ } : i;
                     }
                     return i;
-                }).filter(i => i.quantity > 0)); // Remove se bater 0 na UI atual mas aqui trataremos só de diminuir
+                }).filter(i => i.quantity > 0));
             };
 
             const removeFromCart = (id) => {
@@ -271,7 +300,6 @@
                 if (cart.length === 0) return alert("Seu pedido está vazio!");
                 if (!formData.name || !formData.phone) return alert("Por favor, preencha pelo menos Nome e Celular para contato.");
 
-                // Gera a string do WhatsApp com formatação elegante e sem emojis para evitar quebra de codificação local
                 let msg = `*NOVO PEDIDO DE PÁSCOA 2026* | Algodão Doce\n`;
                 msg += `--------------------------------------\n\n`;
 
@@ -311,13 +339,11 @@
                 msg += `Aguardo seu retorno para confirmar a disponibilidade e o pagamento.`;
 
                 const phone = "5531984553573";
-                // codificando corretamente para o zap
                 const encodedMsg = encodeURIComponent(msg);
                 const url = `https://api.whatsapp.com/send?phone=${phone}&text=${encodedMsg}`;
                 window.open(url, '_blank');
             };
 
-            // Efeito para fechar drawer no Esc
             useEffect(() => {
                 const handleEsc = (e) => { if (e.key === 'Escape') setIsCartOpen(false); }
                 window.addEventListener('keydown', handleEsc);
@@ -326,7 +352,6 @@
 
             return (
                 <div className="relative overflow-x-hidden min-h-screen">
-                    {/* --- NAVBAR --- */}
                     {/* --- TOAST NOTIFICATION --- */}
                     {toastMsg && (
                         <div key={toastKey} className="fixed top-24 right-4 sm:right-8 z-[999] animate-toast">
@@ -341,32 +366,37 @@
                             </div>
                         </div>
                     )}
-                    <nav className="fixed top-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-md border-b border-[#F0EBE1] transition-all py-3 px-4 sm:px-8 flex justify-between items-center shadow-sm">
+                    <nav className="fixed top-0 left-0 right-0 z-40 bg-white/90 dark:bg-[#1a1512]/90 backdrop-blur-md border-b border-[#F0EBE1] dark:border-[#38271B] transition-all py-3 px-4 sm:px-8 flex justify-between items-center shadow-sm">
                         <div className="flex items-center">
                             <img src="assets/logo-novo.png" alt="Algodão Doce" className="h-16 sm:h-20 object-contain drop-shadow-md" />
                         </div>
-                        <button onClick={() => setIsCartOpen(true)} className="relative p-2 text-choc-dark hover:text-gold-soft transition">
-                            <Icons.Cart />
-                            {totalItems > 0 && (
-                                <span className="absolute top-0 right-0 bg-gold-soft text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full border-2 border-white">
-                                    {totalItems}
-                                </span>
-                            )}
-                        </button>
+                        <div className="flex items-center space-x-4">
+                            <button onClick={() => setIsDarkMode(!isDarkMode)} className="p-2 text-choc-dark dark:text-gold-soft hover:text-gold-soft dark:hover:text-white transition">
+                                {isDarkMode ? <Icons.Sun /> : <Icons.Moon />}
+                            </button>
+                            <button onClick={() => setIsCartOpen(true)} className="relative p-2 text-choc-dark dark:text-gold-soft hover:text-gold-soft dark:hover:text-white transition">
+                                <Icons.Cart />
+                                {totalItems > 0 && (
+                                    <span className="absolute top-0 right-0 bg-gold-soft text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full border-2 border-white dark:border-[#1a1512]">
+                                        {totalItems}
+                                    </span>
+                                )}
+                            </button>
+                        </div>
                     </nav>
 
                     {/* --- HERO --- */}
-                    <section id="cardapio" className="pt-28 pb-20 px-4 bg-beige-bg">
+                    <section id="cardapio" className="pt-28 pb-20 px-4 bg-beige-bg dark:bg-[#241D18]">
                         <div className="max-w-6xl mx-auto">
                             <div className="text-center mb-16">
                                 <span className="text-gold-soft text-2xl">❦</span>
-                                <h2 className="font-serif text-4xl sm:text-5xl font-bold text-choc-dark mt-4 mb-4">Nosso Cardápio</h2>
-                                <p className="text-choc-light max-w-2xl mx-auto">Sabores inesquecíveis, produzidos com o mais puro chocolate e muito amor em cada detalhe.</p>
+                                <h2 className="font-serif text-4xl sm:text-5xl font-bold text-choc-dark dark:text-[#F5F2EB] mt-4 mb-4">Nosso Cardápio</h2>
+                                <p className="text-choc-light dark:text-[#DFD0C3] max-w-2xl mx-auto">Sabores inesquecíveis, produzidos com o mais puro chocolate e muito amor em cada detalhe.</p>
                             </div>
 
                             {products.map((cat, idx) => (
                                 <div key={idx} className="mb-20">
-                                    <h3 className="font-serif text-3xl font-italic text-choc-dark mb-8 border-b border-[#E0D5C1] pb-2 flex items-center">
+                                    <h3 className="font-serif text-3xl font-italic text-choc-dark dark:text-gold-soft mb-8 border-b border-[#E0D5C1] dark:border-[#38271B] pb-2 flex items-center">
                                         <span className="w-2 h-2 rounded-full bg-gold-soft mr-3"></span>
                                         {cat.category}
                                     </h3>
@@ -380,23 +410,22 @@
                         </div>
                     </section>
 
-                    <header className="pt-24 pb-16 px-4 hero-pattern relative overflow-hidden flex flex-col items-center justify-center min-h-[70vh] text-center border-b border-[#E0D5C1]/30">
-                        {/* Decorative circle */}
-                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white rounded-full blur-[100px] opacity-60 pointer-events-none"></div>
+                    <header className="pt-24 pb-16 px-4 hero-pattern relative overflow-hidden flex flex-col items-center justify-center min-h-[70vh] text-center border-b border-[#E0D5C1]/30 dark:border-[#38271B]">
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white dark:bg-[#38271B] rounded-full blur-[100px] opacity-60 dark:opacity-20 pointer-events-none"></div>
 
                         <div className="relative z-10 max-w-3xl mx-auto">
                             <p className="text-gold-soft uppercase tracking-[0.2em] font-bold text-xs sm:text-sm mb-4">Coleção Exclusiva</p>
-                            <h1 className="font-serif text-5xl sm:text-7xl font-bold text-choc-dark mb-6 leading-tight">
+                            <h1 className="font-serif text-5xl sm:text-7xl font-bold text-choc-dark dark:text-[#F5F2EB] mb-6 leading-tight">
                                 Páscoa <span className="italic text-gold-soft">2026</span>
                             </h1>
-                            <p className="text-lg sm:text-2xl text-choc-light mb-10 font-light max-w-2xl mx-auto">
+                            <p className="text-lg sm:text-2xl text-choc-light dark:text-[#DFD0C3] mb-10 font-light max-w-2xl mx-auto">
                                 Vai além de um ovo de Páscoa… é um gesto de carinho em forma de chocolate.
                             </p>
                             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                                <a href="#cardapio" className="bg-choc-dark text-white px-8 py-4 rounded-full font-bold shadow-lg hover:shadow-xl hover:bg-[#38271B] hover:-translate-y-1 transition-all duration-300 w-full sm:w-auto text-center border border-transparent">
+                                <a href="#cardapio" className="bg-choc-dark dark:bg-gold-soft text-white dark:text-gray-900 px-8 py-4 rounded-full font-bold shadow-lg hover:shadow-xl hover:bg-[#38271B] dark:hover:bg-[#A3864A] hover:-translate-y-1 transition-all duration-300 w-full sm:w-auto text-center border border-transparent">
                                     Escolher Meus Doces
                                 </a>
-                                <a href="https://wa.me/5531984553573?text=Ol%C3%A1!%20Gostaria%20de%20mais%20informa%C3%A7%C3%B5es%20sobre%20as%20encomendas%20de%20P%C3%A1scoa." target="_blank" className="bg-white text-choc-dark px-8 py-4 rounded-full font-bold shadow-md border border-[#F0EBE1] hover:bg-beige-bg transition-all duration-300 w-full sm:w-auto text-center flex justify-center items-center">
+                                <a href="https://wa.me/5531984553573?text=Ol%C3%A1!%20Gostaria%20de%20mais%20informa%C3%A7%C3%B5es%20sobre%20as%20encomendas%20de%20P%C3%A1scoa." target="_blank" className="bg-white dark:bg-[#1a1512] text-choc-dark dark:text-[#F5F2EB] px-8 py-4 rounded-full font-bold shadow-md border border-[#F0EBE1] dark:border-[#38271B] hover:bg-beige-bg dark:hover:bg-[#241D18] transition-all duration-300 w-full sm:w-auto text-center flex justify-center items-center">
                                     <span className="mr-2 text-green-500"><Icons.WhatsApp /></span> Falar no WhatsApp
                                 </a>
                             </div>
@@ -404,43 +433,37 @@
                     </header>
 
                     {/* --- COMO FUNCIONA --- */}
-                    
-
-                    {/* --- CARDÁPIO --- */}
-                    
-
-                    {/* --- COMO FUNCIONA --- */}
-                    <section className="py-20 px-4 bg-white">
+                    <section className="py-20 px-4 bg-white dark:bg-[#1a1512]">
                         <div className="max-w-6xl mx-auto">
                             <div className="text-center mb-16">
-                                <h2 className="font-serif text-3xl sm:text-4xl font-bold text-choc-dark mb-3">Como realizar sua encomenda</h2>
-                                <p className="text-choc-light">Preparamos um processo prático para adoçar sua vida</p>
+                                <h2 className="font-serif text-3xl sm:text-4xl font-bold text-choc-dark dark:text-[#F5F2EB] mb-3">Como realizar sua encomenda</h2>
+                                <p className="text-choc-light dark:text-[#DFD0C3]">Preparamos um processo prático para adoçar sua vida</p>
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                                <div className="p-8 bg-beige-bg rounded-3xl text-center border border-[#F0EBE1]">
-                                    <div className="w-16 h-16 bg-blue-soft rounded-full flex items-center justify-center text-2xl font-serif font-bold text-choc-dark mx-auto mb-6">1</div>
-                                    <h3 className="font-bold text-lg text-choc-dark mb-2">Escolha do Cardápio</h3>
-                                    <p className="text-choc-light text-sm">Selecione seus doces artesanais favoritos e os tamanhos ideais e adicione ao pedido.</p>
+                                <div className="p-8 bg-beige-bg dark:bg-[#241D18] rounded-3xl text-center border border-[#F0EBE1] dark:border-[#38271B]">
+                                    <div className="w-16 h-16 bg-blue-soft dark:bg-[#528AAB] rounded-full flex items-center justify-center text-2xl font-serif font-bold text-choc-dark dark:text-white mx-auto mb-6">1</div>
+                                    <h3 className="font-bold text-lg text-choc-dark dark:text-[#F5F2EB] mb-2">Escolha do Cardápio</h3>
+                                    <p className="text-choc-light dark:text-[#DFD0C3] text-sm">Selecione seus doces artesanais favoritos e os tamanhos ideais e adicione ao pedido.</p>
                                 </div>
-                                <div className="p-8 bg-beige-bg rounded-3xl text-center border border-[#F0EBE1]">
-                                    <div className="w-16 h-16 bg-pink-pastel rounded-full flex items-center justify-center text-2xl font-serif font-bold text-choc-dark mx-auto mb-6">2</div>
-                                    <h3 className="font-bold text-lg text-choc-dark mb-2">Detalhes e Entrega</h3>
-                                    <p className="text-choc-light text-sm">Preencha seus dados de contato e indique se prefere retirar ou receber as doçuras em casa.</p>
+                                <div className="p-8 bg-beige-bg dark:bg-[#241D18] rounded-3xl text-center border border-[#F0EBE1] dark:border-[#38271B]">
+                                    <div className="w-16 h-16 bg-pink-pastel dark:bg-[#A3595C] rounded-full flex items-center justify-center text-2xl font-serif font-bold text-choc-dark dark:text-white mx-auto mb-6">2</div>
+                                    <h3 className="font-bold text-lg text-choc-dark dark:text-[#F5F2EB] mb-2">Detalhes e Entrega</h3>
+                                    <p className="text-choc-light dark:text-[#DFD0C3] text-sm">Preencha seus dados de contato e indique se prefere retirar ou receber as doçuras em casa.</p>
                                 </div>
-                                <div className="p-8 bg-beige-bg rounded-3xl text-center border border-[#F0EBE1]">
-                                    <div className="w-16 h-16 bg-[#FFF2CC] rounded-full flex items-center justify-center text-2xl font-serif font-bold text-choc-dark mx-auto mb-6">3</div>
-                                    <h3 className="font-bold text-lg text-choc-dark mb-2">Confirmação via WhatsApp</h3>
-                                    <p className="text-choc-light text-sm">Envie a solicitação. Entraremos em contato para confirmar o pagamento e validar a reserva!</p>
+                                <div className="p-8 bg-beige-bg dark:bg-[#241D18] rounded-3xl text-center border border-[#F0EBE1] dark:border-[#38271B]">
+                                    <div className="w-16 h-16 bg-[#FFF2CC] dark:bg-[#9E8B29] rounded-full flex items-center justify-center text-2xl font-serif font-bold text-choc-dark dark:text-white mx-auto mb-6">3</div>
+                                    <h3 className="font-bold text-lg text-choc-dark dark:text-[#F5F2EB] mb-2">Confirmação via WhatsApp</h3>
+                                    <p className="text-choc-light dark:text-[#DFD0C3] text-sm">Envie a solicitação. Entraremos em contato para confirmar o pagamento e validar a reserva!</p>
                                 </div>
                             </div>
                         </div>
                     </section>
 
                     {/* --- REGRAS --- */}
-                    <section className="py-16 px-4 bg-choc-dark text-white text-center border-t-8 border-gold-soft">
+                    <section className="py-16 px-4 bg-choc-dark dark:bg-black text-white text-center border-t-8 border-gold-soft">
                         <div className="max-w-4xl mx-auto">
-                            <h2 className="font-serif text-3xl font-bold mb-8 italic">Informações Importantes</h2>
+                            <h2 className="font-serif text-3xl font-bold mb-8 italic text-white dark:text-gold-soft">Informações Importantes</h2>
                             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-sm text-[#DFD0C3]">
                                 <div className="p-4 border border-[#644B36] rounded-xl">
                                     <p className="font-bold text-white text-lg mb-2">Alterações e Cancelamentos</p>
@@ -459,36 +482,36 @@
                     </section>
 
                     {/* --- FOOTER --- */}
-                    <footer className="bg-white py-12 px-4 border-t border-[#F0EBE1]">
+                    <footer className="bg-white dark:bg-[#1a1512] py-12 px-4 border-t border-[#F0EBE1] dark:border-[#38271B]">
                         <div className="max-w-6xl mx-auto flex flex-col items-center justify-center text-center">
                             <img src="assets/logo-novo.png" alt="Algodão Doce" className="h-32 sm:h-40 object-contain mb-8 drop-shadow-lg" />
-                            <p className="text-choc-light mb-6 max-w-md">Doces artesanais feitos com carinho para tornar sua Páscoa ainda mais especial.</p>
-                            <div className="flex space-x-6 text-choc-dark">
-                                <a href="https://wa.me/5531984553573?text=Ol%C3%A1!%20Gostaria%20de%20mais%20informa%C3%A7%C3%B5es%20sobre%20as%20encomendas%20de%20P%C3%A1scoa." className="hover:text-gold-soft transition flex items-center">
+                            <p className="text-choc-light dark:text-[#DFD0C3] mb-6 max-w-md">Doces artesanais feitos com carinho para tornar sua Páscoa ainda mais especial.</p>
+                            <div className="flex flex-wrap justify-center gap-4 text-choc-dark dark:text-gold-soft">
+                                <a href="https://wa.me/5531984553573?text=Ol%C3%A1!%20Gostaria%20de%20mais%20informa%C3%A7%C3%B5es%20sobre%20as%20encomendas%20de%20P%C3%A1scoa." className="hover:text-gold-soft transition flex items-center whitespace-nowrap">
                                     <Icons.WhatsApp /><span className="ml-2 font-bold">(31) 98455-3573</span>
                                 </a>
-                                <a href="https://www.instagram.com/algodao.docebh?igsh=MTBxdGdwcGhjczR2ZA==" target="_blank" rel="noopener noreferrer" className="hover:text-gold-soft transition flex items-center">
+                                <a href="https://www.instagram.com/algodao.docebh?igsh=MTBxdGdwcGhjczR2ZA==" target="_blank" rel="noopener noreferrer" className="hover:text-gold-soft transition flex items-center whitespace-nowrap">
                                     <Icons.Instagram /><span className="ml-2 font-bold">@algodaodoce.bh</span>
                                 </a>
                             </div>
-                            <p className="text-xs text-choc-light/60 mt-10">© 2026 Algodão Doce. Todos os direitos reservados.</p>
+                            <p className="text-xs text-choc-light/60 dark:text-[#DFD0C3]/60 mt-10">© 2026 Algodão Doce. Todos os direitos reservados.</p>
                         </div>
                     </footer>
 
                     {/* --- CART DRAWER OVERLAY --- */}
                     {isCartOpen && (
                         <div className="fixed inset-0 z-50 flex justify-end">
-                            <div className="absolute inset-0 bg-choc-dark/40 backdrop-blur-sm transition-opacity" onClick={() => setIsCartOpen(false)}></div>
+                            <div className="absolute inset-0 bg-choc-dark/40 dark:bg-black/80 backdrop-blur-sm transition-opacity" onClick={() => setIsCartOpen(false)}></div>
 
-                            <div className="relative w-full max-w-md bg-beige-card h-full shadow-2xl flex flex-col cart-enter overflow-y-auto">
-                                <div className="p-5 border-b border-[#F0EBE1] flex justify-between items-center bg-white sticky top-0 z-10">
-                                    <h2 className="font-serif text-2xl font-bold text-choc-dark">Seu Pedido</h2>
-                                    <button onClick={() => setIsCartOpen(false)} className="text-choc-light hover:text-red-500 bg-beige-bg p-2 rounded-full"><Icons.X /></button>
+                            <div className="relative w-full max-w-md bg-beige-card dark:bg-[#1a1512] h-full shadow-2xl flex flex-col cart-enter overflow-y-auto">
+                                <div className="p-5 border-b border-[#F0EBE1] dark:border-[#38271B] flex justify-between items-center bg-white dark:bg-[#1a1512] sticky top-0 z-10">
+                                    <h2 className="font-serif text-2xl font-bold text-choc-dark dark:text-gold-soft">Seu Pedido</h2>
+                                    <button onClick={() => setIsCartOpen(false)} className="text-choc-light dark:text-[#DFD0C3] hover:text-red-500 bg-beige-bg dark:bg-[#241D18] p-2 rounded-full"><Icons.X /></button>
                                 </div>
 
                                 <div className="p-5 flex-grow">
                                     {cart.length === 0 ? (
-                                        <div className="text-center text-choc-light py-20">
+                                        <div className="text-center text-choc-light dark:text-[#DFD0C3] py-20">
                                             <div className="text-5xl mb-4 opacity-50">🍫</div>
                                             <p className="font-medium text-lg">Seu pedido está vazio.</p>
                                             <p className="text-sm mt-2">Navegue pelas doçuras e escolha seus favoritos.</p>
@@ -497,92 +520,92 @@
                                     ) : (
                                         <div className="space-y-4 mb-8">
                                             {cart.map((item) => (
-                                                <div key={item.id} className="flex pt-4 pb-4 border-b border-[#F0EBE1] bg-white p-3 rounded-xl shadow-sm">
-                                                    <img src={item.image} alt={item.name} className="w-16 h-16 object-cover rounded-lg border border-[#F0EBE1]" />
+                                                <div key={item.id} className="flex pt-4 pb-4 border-b border-[#F0EBE1] dark:border-[#38271B] bg-white dark:bg-[#241D18] p-3 rounded-xl shadow-sm">
+                                                    <img src={item.image} alt={item.name} className="w-16 h-16 object-cover rounded-lg border border-[#F0EBE1] dark:border-transparent" />
                                                     <div className="ml-3 flex-grow">
-                                                        <h4 className="font-bold text-choc-dark text-sm">{item.name}</h4>
-                                                        <p className="text-xs text-choc-light">{item.weight}</p>
+                                                        <h4 className="font-bold text-choc-dark dark:text-[#F5F2EB] text-sm">{item.name}</h4>
+                                                        <p className="text-xs text-choc-light dark:text-[#DFD0C3]">{item.weight}</p>
                                                         <div className="flex justify-between items-center mt-2">
-                                                            <div className="flex items-center space-x-2 bg-beige-bg rounded-full border border-[#F0EBE1] px-1">
-                                                                <button onClick={() => updateQuantity(item.id, -1)} className="w-6 h-6 flex items-center justify-center text-choc-dark font-bold hover:text-red-500">-</button>
-                                                                <span className="text-xs font-bold text-choc-dark w-4 text-center">{item.quantity}</span>
-                                                                <button onClick={() => updateQuantity(item.id, 1)} className="w-6 h-6 flex items-center justify-center text-choc-dark font-bold hover:text-green-500">+</button>
+                                                            <div className="flex items-center space-x-2 bg-beige-bg dark:bg-[#1a1512] rounded-full border border-[#F0EBE1] dark:border-[#38271B] px-1">
+                                                                <button onClick={() => updateQuantity(item.id, -1)} className="w-6 h-6 flex items-center justify-center text-choc-dark dark:text-gold-soft font-bold hover:text-red-500">-</button>
+                                                                <span className="text-xs font-bold text-choc-dark dark:text-[#F5F2EB] w-4 text-center">{item.quantity}</span>
+                                                                <button onClick={() => updateQuantity(item.id, 1)} className="w-6 h-6 flex items-center justify-center text-choc-dark dark:text-gold-soft font-bold hover:text-green-500">+</button>
                                                             </div>
-                                                            <span className="font-bold text-choc-dark text-sm">{formatBRL(item.price * item.quantity)}</span>
+                                                            <span className="font-bold text-choc-dark dark:text-gold-soft text-sm">{formatBRL(item.price * item.quantity)}</span>
                                                             <button onClick={() => removeFromCart(item.id)} className="text-red-400 text-xs ml-2 hover:underline">remover</button>
                                                         </div>
                                                     </div>
                                                 </div>
                                             ))}
-                                            <div className="pt-4 border-t-2 border-dashed border-[#E0D5C1] flex justify-between items-center bg-white p-4 rounded-xl">
-                                                <span className="text-choc-light font-medium uppercase tracking-wider text-xs">Subtotal (Sem Frete)</span>
-                                                <span className="font-serif font-bold text-2xl text-choc-dark">{formatBRL(cartTotal)}</span>
+                                            <div className="pt-4 border-t-2 border-dashed border-[#E0D5C1] dark:border-[#38271B] flex justify-between items-center bg-white dark:bg-[#1a1512] p-4 rounded-xl">
+                                                <span className="text-choc-light dark:text-[#DFD0C3] font-medium uppercase tracking-wider text-xs">Subtotal (Sem Frete)</span>
+                                                <span className="font-serif font-bold text-2xl text-choc-dark dark:text-gold-soft">{formatBRL(cartTotal)}</span>
                                             </div>
                                         </div>
                                     )}
 
                                     {/* FORMULÁRIO DE CHECKOUT */}
                                     {cart.length > 0 && (
-                                        <div className="bg-white p-5 rounded-2xl border border-[#F0EBE1] shadow-sm mb-10">
-                                            <h3 className="font-serif text-xl font-bold text-choc-dark mb-4 border-b border-[#F0EBE1] pb-2">Detalhes da Encomenda</h3>
+                                        <div className="bg-white dark:bg-[#241D18] p-5 rounded-2xl border border-[#F0EBE1] dark:border-[#38271B] shadow-sm mb-10">
+                                            <h3 className="font-serif text-xl font-bold text-choc-dark dark:text-[#F5F2EB] mb-4 border-b border-[#F0EBE1] dark:border-[#38271B] pb-2">Detalhes da Encomenda</h3>
                                             <div className="space-y-4">
-                                                <div><label className="text-xs font-bold text-choc-dark block mb-1">Nome Completo *</label><input type="text" maxLength={30} value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="w-full border border-[#F0EBE1] rounded-lg p-3 text-sm bg-beige-bg focus:ring-1 focus:ring-gold-soft outline-none" placeholder="Ex: Maria Fernanda" /></div>
+                                                <div><label className="text-xs font-bold text-choc-dark dark:text-[#F5F2EB] block mb-1">Nome Completo *</label><input type="text" maxLength={30} value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="w-full border border-[#F0EBE1] dark:border-[#38271B] rounded-lg p-3 text-sm bg-beige-bg dark:bg-[#1a1512] dark:text-[#F5F2EB] focus:ring-1 focus:ring-gold-soft outline-none" placeholder="Ex: Maria Fernanda" /></div>
                                                 <div className="flex space-x-3">
-                                                    <div className="w-1/2 min-w-0"><label className="text-xs font-bold text-choc-dark block mb-1">WhatsApp *</label><input type="tel" maxLength={15} value={formData.phone} onChange={e => { let val = e.target.value.replace(/\D/g, ''); if(val.length > 11) val = val.substring(0, 11); val = val.replace(/^(\d{2})(\d)/g, '($1) $2'); val = val.replace(/(\d)(\d{4})$/, '$1-$2'); setFormData({ ...formData, phone: val }); }} className="w-full border border-[#F0EBE1] rounded-lg p-3 text-sm bg-beige-bg focus:ring-1 focus:ring-gold-soft outline-none" placeholder="" /></div>
+                                                    <div className="w-1/2 min-w-0"><label className="text-xs font-bold text-choc-dark dark:text-[#F5F2EB] block mb-1">WhatsApp *</label><input type="tel" maxLength={15} value={formData.phone} onChange={e => { let val = e.target.value.replace(/\D/g, ''); if(val.length > 11) val = val.substring(0, 11); val = val.replace(/^(\d{2})(\d)/g, '($1) $2'); val = val.replace(/(\d)(\d{4})$/, '$1-$2'); setFormData({ ...formData, phone: val }); }} className="w-full border border-[#F0EBE1] dark:border-[#38271B] rounded-lg p-3 text-sm bg-beige-bg dark:bg-[#1a1512] dark:text-[#F5F2EB] focus:ring-1 focus:ring-gold-soft outline-none" placeholder="" /></div>
                                                     <div className="w-1/2 min-w-0">
-                                                        <label className="text-xs font-bold text-choc-dark block mb-1 truncate">Cupom de Desconto</label>
+                                                        <label className="text-xs font-bold text-choc-dark dark:text-[#F5F2EB] block mb-1 truncate">Cupom de Desconto</label>
                                                         <div className="flex items-center space-x-2">
-                                                            <input type="text" maxLength={20} placeholder="" value={promoInput} onChange={(e)=>setPromoInput(e.target.value)} className="w-full border border-[#F0EBE1] rounded-lg p-3 text-sm bg-beige-bg uppercase focus:ring-1 focus:ring-gold-soft outline-none" />
-                                                            <button type="button" onClick={applyPromo} className="bg-choc-dark text-white text-xs px-3 py-3 rounded-lg font-bold hover:bg-[#38271B] transition-colors">OK</button>
+                                                            <input type="text" maxLength={20} placeholder="" value={promoInput} onChange={(e)=>setPromoInput(e.target.value)} className="w-full border border-[#F0EBE1] dark:border-[#38271B] rounded-lg p-3 text-sm bg-beige-bg dark:bg-[#1a1512] dark:text-[#F5F2EB] uppercase focus:ring-1 focus:ring-gold-soft outline-none" />
+                                                            <button type="button" onClick={applyPromo} className="bg-choc-dark dark:bg-gold-soft text-white dark:text-gray-900 text-xs px-3 py-3 rounded-lg font-bold hover:bg-[#38271B] dark:hover:bg-[#A3864A] transition-colors">OK</button>
                                                         </div>
                                                     </div>
                                                 </div>
 
                                                 <div className="pt-4">
-                                                    <label className="text-xs font-bold text-choc-dark block mb-2">Modalidade *</label>
+                                                    <label className="text-xs font-bold text-choc-dark dark:text-[#F5F2EB] block mb-2">Modalidade *</label>
                                                     <div className="flex space-x-2">
-                                                        <button onClick={() => setFormData({ ...formData, method: 'Retirar no local' })} className={`flex-1 py-2 text-sm font-bold rounded-lg border ${formData.method === 'Retirar no local' ? 'bg-choc-dark text-white border-choc-dark' : 'bg-transparent text-choc-light border-[#F0EBE1]'}`}>Retirar no local</button>
-                                                        <button onClick={() => setFormData({ ...formData, method: 'Entrega' })} className={`flex-1 py-2 text-sm font-bold rounded-lg border ${formData.method === 'Entrega' ? 'bg-choc-dark text-white border-choc-dark' : 'bg-transparent text-choc-light border-[#F0EBE1]'}`}>Entrega</button>
+                                                        <button onClick={() => setFormData({ ...formData, method: 'Retirar no local' })} className={`flex-1 py-2 text-sm font-bold rounded-lg border ${formData.method === 'Retirar no local' ? 'bg-choc-dark dark:bg-gold-soft text-white dark:text-gray-900 border-choc-dark dark:border-gold-soft' : 'bg-transparent text-choc-light dark:text-[#DFD0C3] border-[#F0EBE1] dark:border-[#38271B]'}`}>Retirar no local</button>
+                                                        <button onClick={() => setFormData({ ...formData, method: 'Entrega' })} className={`flex-1 py-2 text-sm font-bold rounded-lg border ${formData.method === 'Entrega' ? 'bg-choc-dark dark:bg-gold-soft text-white dark:text-gray-900 border-choc-dark dark:border-gold-soft' : 'bg-transparent text-choc-light dark:text-[#DFD0C3] border-[#F0EBE1] dark:border-[#38271B]'}`}>Entrega</button>
                                                     </div>
                                                 </div>
 
                                                 {formData.method === 'Entrega' && (
-                                                    <div className="p-3 bg-blue-soft/30 rounded-lg space-y-3 mt-2 border border-blue-100">
+                                                    <div className="p-3 bg-blue-soft/30 dark:bg-[#528AAB]/20 rounded-lg space-y-3 mt-2 border border-blue-100 dark:border-[#528AAB]/50">
                                                         <div className="flex space-x-2">
-                                                            <div className="w-1/3"><input type="text" value={formData.cep} onChange={e => setFormData({ ...formData, cep: e.target.value })} placeholder="CEP" className="w-full border border-[#F0EBE1] rounded-lg p-2 text-sm bg-white" /></div>
-                                                            <div className="w-2/3"><input type="text" value={formData.bairro} onChange={e => setFormData({ ...formData, bairro: e.target.value })} placeholder="Bairro" className="w-full border border-[#F0EBE1] rounded-lg p-2 text-sm bg-white" /></div>
+                                                            <div className="w-1/3"><input type="text" value={formData.cep} onChange={e => setFormData({ ...formData, cep: e.target.value })} placeholder="CEP" className="w-full border border-[#F0EBE1] dark:border-[#38271B] rounded-lg p-2 text-sm bg-white dark:bg-[#1a1512] dark:text-[#F5F2EB]" /></div>
+                                                            <div className="w-2/3"><input type="text" value={formData.bairro} onChange={e => setFormData({ ...formData, bairro: e.target.value })} placeholder="Bairro" className="w-full border border-[#F0EBE1] dark:border-[#38271B] rounded-lg p-2 text-sm bg-white dark:bg-[#1a1512] dark:text-[#F5F2EB]" /></div>
                                                         </div>
-                                                        <div><input type="text" value={formData.address} onChange={e => setFormData({ ...formData, address: e.target.value })} placeholder="Rua, Número, Complemento" className="w-full border border-[#F0EBE1] rounded-lg p-2 text-sm bg-white" /></div>
-                                                        <div><input type="text" value={formData.reference} onChange={e => setFormData({ ...formData, reference: e.target.value })} placeholder="Ponto de Referência" className="w-full border border-[#F0EBE1] rounded-lg p-2 text-sm bg-white" /></div>
-                                                        <p className="text-[10px] text-blue-800 text-center font-bold">Frete será calculado pelo atendimento no WhatsApp.</p>
+                                                        <div><input type="text" value={formData.address} onChange={e => setFormData({ ...formData, address: e.target.value })} placeholder="Rua, Número, Complemento" className="w-full border border-[#F0EBE1] dark:border-[#38271B] rounded-lg p-2 text-sm bg-white dark:bg-[#1a1512] dark:text-[#F5F2EB]" /></div>
+                                                        <div><input type="text" value={formData.reference} onChange={e => setFormData({ ...formData, reference: e.target.value })} placeholder="Ponto de Referência" className="w-full border border-[#F0EBE1] dark:border-[#38271B] rounded-lg p-2 text-sm bg-white dark:bg-[#1a1512] dark:text-[#F5F2EB]" /></div>
+                                                        <p className="text-[10px] text-blue-800 dark:text-blue-300 text-center font-bold">Frete será calculado pelo atendimento no WhatsApp.</p>
                                                     </div>
                                                 )}
 
                                                 <div className="flex space-x-3 pt-2">
                                                     <div className="w-1/2 min-w-0">
-                                                        <label className="text-xs font-bold text-choc-dark block mb-1">Data</label>
-                                                        <input type="date" min={new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().split('T')[0]} value={formData.date} onChange={e => setFormData({ ...formData, date: e.target.value })} className="w-full border border-[#F0EBE1] rounded-lg p-3 text-sm bg-beige-bg text-choc-light" />
+                                                        <label className="text-xs font-bold text-choc-dark dark:text-[#F5F2EB] block mb-1">Data</label>
+                                                        <input type="date" min={new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().split('T')[0]} value={formData.date} onChange={e => setFormData({ ...formData, date: e.target.value })} className="w-full border border-[#F0EBE1] dark:border-[#38271B] rounded-lg p-3 text-sm bg-beige-bg dark:bg-[#1a1512] text-choc-light dark:text-[#F5F2EB]" />
                                                     </div>
                                                     <div className="w-1/2 min-w-0">
-                                                        <label className="text-xs font-bold text-choc-dark block mb-1">Período</label>
-                                                        <select value={formData.period} onChange={e => setFormData({ ...formData, period: e.target.value })} className="w-full border border-[#F0EBE1] rounded-lg p-3 text-sm bg-beige-bg text-choc-dark outline-none">
+                                                        <label className="text-xs font-bold text-choc-dark dark:text-[#F5F2EB] block mb-1">Período</label>
+                                                        <select value={formData.period} onChange={e => setFormData({ ...formData, period: e.target.value })} className="w-full border border-[#F0EBE1] dark:border-[#38271B] rounded-lg p-3 text-sm bg-beige-bg dark:bg-[#1a1512] text-choc-dark dark:text-[#F5F2EB] outline-none">
                                                             <option>Manhã</option><option>Tarde</option><option>Noite</option>
                                                         </select>
                                                     </div>
                                                 </div>
 
                                                 <div className="pt-2">
-                                                    <label className="text-xs font-bold text-choc-dark block mb-1">Pagamento Preferido *</label>
-                                                    <select value={formData.payment} onChange={e => setFormData({ ...formData, payment: e.target.value })} className="w-full border border-[#F0EBE1] rounded-lg p-3 text-sm bg-beige-bg text-choc-dark outline-none">
+                                                    <label className="text-xs font-bold text-choc-dark dark:text-[#F5F2EB] block mb-1">Pagamento Preferido *</label>
+                                                    <select value={formData.payment} onChange={e => setFormData({ ...formData, payment: e.target.value })} className="w-full border border-[#F0EBE1] dark:border-[#38271B] rounded-lg p-3 text-sm bg-beige-bg dark:bg-[#1a1512] text-choc-dark dark:text-[#F5F2EB] outline-none">
                                                         <option>Pix</option>
                                                         <option>Cartão de Crédito 1x</option>
                                                     </select>
-                                                    <p className="text-[10px] text-choc-light text-center mt-2 italic">O pagamento não será feito aqui. O Atendimento confirmará as chaves/links no WhatsApp para reserva.</p>
+                                                    <p className="text-[10px] text-choc-light dark:text-gray-500 text-center mt-2 italic">O pagamento não será feito aqui. O Atendimento confirmará as chaves/links no WhatsApp para reserva.</p>
                                                 </div>
 
                                                 <div className="pt-2">
-                                                    <label className="text-xs font-bold text-choc-dark block mb-1">Observações</label>
-                                                    <textarea rows="2" maxLength={500} value={formData.obs} onChange={e => setFormData({ ...formData, obs: e.target.value })} className="w-full border border-[#F0EBE1] rounded-lg p-3 text-sm bg-beige-bg focus:ring-1 focus:ring-gold-soft outline-none" placeholder="Recadinhos, tags ou detalhes especiais..."></textarea>
+                                                    <label className="text-xs font-bold text-choc-dark dark:text-[#F5F2EB] block mb-1">Observações</label>
+                                                    <textarea rows="2" maxLength={500} value={formData.obs} onChange={e => setFormData({ ...formData, obs: e.target.value })} className="w-full border border-[#F0EBE1] dark:border-[#38271B] rounded-lg p-3 text-sm bg-beige-bg dark:bg-[#1a1512] dark:text-[#F5F2EB] focus:ring-1 focus:ring-gold-soft outline-none" placeholder="Recadinhos, tags ou detalhes especiais..."></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -590,11 +613,11 @@
                                 </div>
 
                                 {cart.length > 0 && (
-                                    <div className="p-5 bg-white border-t border-[#F0EBE1] sticky bottom-0 z-20">
+                                    <div className="p-5 bg-white dark:bg-[#1a1512] border-t border-[#F0EBE1] dark:border-[#38271B] sticky bottom-0 z-20">
                                         <button onClick={handleCheckout} className="w-full bg-[#25D366] hover:bg-[#1EBE5A] text-white py-4 rounded-xl font-bold flex justify-center items-center shadow-lg transition-transform active:scale-95 text-lg">
                                             <Icons.WhatsApp /> <span className="ml-2">Enviar Pedido por WhatsApp</span>
                                         </button>
-                                        <p className="text-[9px] text-center mt-3 text-choc-light/70 uppercase font-bold tracking-wider">A reserva só será efetivada após confirmação.</p>
+                                        <p className="text-[9px] text-center mt-3 text-choc-light/70 dark:text-[#DFD0C3]/50 uppercase font-bold tracking-wider">A reserva só será efetivada após confirmação.</p>
                                     </div>
                                 )}
                             </div>
